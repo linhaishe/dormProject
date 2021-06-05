@@ -1,5 +1,20 @@
 @import url(common.css);
 
+#top-menu {
+  position: absolute;
+  margin-left: 200px;
+  padding: 20px;
+  margin-bottom: 110px;
+  width: 85%;
+}
+
+#separate-line {
+  width: 100%;
+  height: 1px;
+  border: 1px solid lightgray;
+  margin-top: 20px;
+}
+
 .navbar > .logomenu {
   justify-content: left;
   /* color: white; */

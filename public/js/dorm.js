@@ -295,11 +295,11 @@ $(".push-get-fee").on("click", function () {
 
 //点击获取数据，存在localstorage的nav 数组中
 
-$(".nav-link").each(function (i) {
-  $(this).on("click", function () {
-    localStorage.setItem($(this).attr("data-name"), $(this).html());
-  });
-});
+// $(".nav-link").each(function (i) {
+//   $(this).on("click", function () {
+//     localStorage.setItem($(this).attr("data-name"), $(this).html());
+//   });
+// });
 
 //数据去重
 
@@ -319,85 +319,85 @@ var bulletin = localStorage.getItem("bulletin");
 var admin = localStorage.getItem("admin");
 
 //添加样式
-function addCss() {
-  $(".menu-list").css({
-    height: "25px",
-    width: "100px",
-    background: "#0f6efd",
-    color: "white",
-    "text-align": "center",
-    "line-height": "25px",
-    "border-radius": "3px",
-    margin: "10px",
-    "font-size": "14px",
-  });
-  $(".menu-row").css({
-    display: "flex",
-    " align-items": "center",
-    "align-content": "center",
-  });
-  $(".menu-list a").css({
-    "text-decoration": "none",
-    color: "white",
-    "margin-left": "10px",
-  });
-}
+// function addCss() {
+//   $(".menu-list").css({
+//     height: "25px",
+//     width: "100px",
+//     background: "#0f6efd",
+//     color: "white",
+//     "text-align": "center",
+//     "line-height": "25px",
+//     "border-radius": "3px",
+//     margin: "10px",
+//     "font-size": "14px",
+//   });
+//   $(".menu-row").css({
+//     display: "flex",
+//     " align-items": "center",
+//     "align-content": "center",
+//   });
+//   $(".menu-list a").css({
+//     "text-decoration": "none",
+//     color: "white",
+//     "margin-left": "10px",
+//   });
+// }
 
-if (homepage) {
-  navArr.push(homepage);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("homepage") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-if (student) {
-  navArr.push(student);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("student") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-if (bulletin) {
-  navArr.push(bulletin);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("bulletin") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-if (admin) {
-  navArr.push(admin);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("admin") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-if (dorm) {
-  navArr.push(dorm);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("dorm") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
+// if (homepage) {
+//   navArr.push(homepage);
+//   $(".menu-row").append(
+//     $(
+//       '<div class="menu-list">' +
+//         localStorage.getItem("homepage") +
+//         '<a href="javascript:;">x</a></div>'
+//     )
+//   );
+//   addCss();
+// }
+// if (student) {
+//   navArr.push(student);
+//   $(".menu-row").append(
+//     $(
+//       '<div class="menu-list">' +
+//         localStorage.getItem("student") +
+//         '<a href="javascript:;">x</a></div>'
+//     )
+//   );
+//   addCss();
+// }
+// if (bulletin) {
+//   navArr.push(bulletin);
+//   $(".menu-row").append(
+//     $(
+//       '<div class="menu-list">' +
+//         localStorage.getItem("bulletin") +
+//         '<a href="javascript:;">x</a></div>'
+//     )
+//   );
+//   addCss();
+// }
+// if (admin) {
+//   navArr.push(admin);
+//   $(".menu-row").append(
+//     $(
+//       '<div class="menu-list">' +
+//         localStorage.getItem("admin") +
+//         '<a href="javascript:;">x</a></div>'
+//     )
+//   );
+//   addCss();
+// }
+// if (dorm) {
+//   navArr.push(dorm);
+//   $(".menu-row").append(
+//     $(
+//       '<div class="menu-list">' +
+//         localStorage.getItem("dorm") +
+//         '<a href="javascript:;">x</a></div>'
+//     )
+//   );
+//   addCss();
+// }
 
 //搜索
 $(".search").on("click", function () {

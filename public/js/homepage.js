@@ -24,7 +24,9 @@
 //   console.log(jsonObj.stuName);
 // }
 
-//导航栏点击事件
+//左侧导航栏点击事件
+$(".menu-list").hide();
+$(".menu-list").eq(0).show();
 
 function addColor(_this) {
   $(_this).parent().siblings().children().css({ color: "" });
@@ -43,6 +45,12 @@ $(".nav-link").each(function (i) {
       $("#bulletin-homepage").hide();
       $("#admin-homepage").hide();
       addColor(_this);
+      //点击后顶部导航栏显示事件，颜色改变
+      $(".menu-list").eq(0).show();
+      $(".menu-list").removeClass("active");
+      $(".menu-list").children().css({ color: "black" });
+      $(".menu-list").eq(0).addClass("active");
+      $(".menu-list").eq(0).children().css({ color: "white" });
     }
     if ($(this).attr("data-name") == "dorm") {
       console.log("点击宿舍管理");
@@ -53,6 +61,11 @@ $(".nav-link").each(function (i) {
       $("#bulletin-homepage").hide();
       $("#admin-homepage").hide();
       addColor(_this);
+      $(".menu-list").eq(1).show();
+      $(".menu-list").removeClass("active");
+      $(".menu-list").children().css({ color: "black" });
+      $(".menu-list").eq(1).addClass("active");
+      $(".menu-list").eq(1).children().css({ color: "white" });
     }
     if ($(this).attr("data-name") == "student") {
       console.log("学生管理");
@@ -63,6 +76,11 @@ $(".nav-link").each(function (i) {
       $("#bulletin-homepage").hide();
       $("#admin-homepage").hide();
       addColor(_this);
+      $(".menu-list").eq(2).show();
+      $(".menu-list").removeClass("active");
+      $(".menu-list").children().css({ color: "black" });
+      $(".menu-list").eq(2).addClass("active");
+      $(".menu-list").eq(2).children().css({ color: "white" });
     }
     if ($(this).attr("data-name") == "bulletin") {
       console.log("公告管理");
@@ -73,6 +91,11 @@ $(".nav-link").each(function (i) {
       $("#homepage").hide();
       $("#admin-homepage").hide();
       addColor(_this);
+      $(".menu-list").eq(3).show();
+      $(".menu-list").removeClass("active");
+      $(".menu-list").children().css({ color: "black" });
+      $(".menu-list").eq(3).addClass("active");
+      $(".menu-list").eq(3).children().css({ color: "white" });
     }
     if ($(this).attr("data-name") == "admin") {
       console.log("管理员页面");
@@ -83,8 +106,106 @@ $(".nav-link").each(function (i) {
       $("#dorm-homepage").hide();
       $("#homepage").hide();
       addColor(_this);
+      $(".menu-list").eq(4).show();
+      $(".menu-list").removeClass("active");
+      $(".menu-list").children().css({ color: "black" });
+      $(".menu-list").eq(4).addClass("active");
+      $(".menu-list").eq(4).children().css({ color: "white" });
     }
   });
+});
+
+//横向导航栏点击事件
+//获得按钮
+//点击后显示相应页面，并更改样式
+$(".menu-list").each(function (i) {
+  $(this).on("click", function () {
+    //清除所有样式
+    $(".menu-list").removeClass("active");
+    $(".menu-list").children().css({ color: "black" });
+    //点击按钮添加样式
+    $(".menu-list").eq(i).addClass("active");
+    $(".menu-list").eq(i).children().css({ color: "white" });
+    //点击后显示相应页面
+    var text = $(this)
+      .text()
+      .substring(0, $(this).text().length - 1);
+    console.log(
+      $(this)
+        .text()
+        .substring(0, $(this).text().length - 1)
+    );
+
+    // function addColor(_this) {
+    //   $(_this).parent().siblings().children().css({ color: "" });
+    //   $(_this).attr("style", "color: #0f6efd");
+    //   $(_this).siblings().attr("style", "color: #0f6efd");
+    // }
+
+    if (text == "公告主页") {
+      $("#homepage").show();
+      $("#dorm-homepage").hide();
+      $("#student-admin-homepage").hide();
+      $("#bulletin-homepage").hide();
+      $("#admin-homepage").hide();
+      //左侧导航栏更改相应颜色
+      addColor($(".nav-link").eq(0));
+    }
+    if (text == "宿舍管理") {
+      $("#homepage").hide();
+      $("#dorm-homepage").show();
+      $("#student-admin-homepage").hide();
+      $("#bulletin-homepage").hide();
+      $("#admin-homepage").hide();
+      addColor($(".nav-link").eq(1));
+    }
+
+    if (text == "学生管理") {
+      $("#homepage").hide();
+      $("#dorm-homepage").hide();
+      $("#student-admin-homepage").show();
+      $("#bulletin-homepage").hide();
+      $("#admin-homepage").hide();
+      addColor($(".nav-link").eq(2));
+    }
+
+    if (text == "公告管理") {
+      $("#homepage").hide();
+      $("#dorm-homepage").hide();
+      $("#student-admin-homepage").hide();
+      $("#bulletin-homepage").show();
+      $("#admin-homepage").hide();
+      addColor($(".nav-link").eq(3));
+    }
+
+    if (text == "管理员管理") {
+      $("#homepage").hide();
+      $("#dorm-homepage").hide();
+      $("#student-admin-homepage").hide();
+      $("#bulletin-homepage").hide();
+      $("#admin-homepage").show();
+      addColor($(".nav-link").eq(4));
+    }
+  });
+});
+
+//顶部导航栏删除事件
+$(".menu-list a").on("click", function () {
+  event.stopPropagation();
+  $(this).parent().css({ display: "none" });
+  $("#homepage").show();
+  $("#dorm-homepage").hide();
+  $("#student-admin-homepage").hide();
+  $("#bulletin-homepage").hide();
+  $("#admin-homepage").hide();
+  //左侧导航栏更改相应颜色
+  addColor($(".nav-link").eq(0));
+  //顶部导航栏修改颜色
+  $(".menu-list").eq(0).show();
+  $(".menu-list").removeClass("active");
+  $(".menu-list").children().css({ color: "black" });
+  $(".menu-list").eq(0).addClass("active");
+  $(".menu-list").eq(0).children().css({ color: "white" });
 });
 
 //用户点击退出时，强制登入页面并清空用户数据
@@ -230,12 +351,6 @@ var uniqueArr = unique(navArr);
 
 for (var i = 0; i < uniqueArr.length; i++) {}
 
-var homepage = localStorage.getItem("homepage");
-var dorm = localStorage.getItem("dorm");
-var student = localStorage.getItem("student");
-var bulletin = localStorage.getItem("bulletin");
-var admin = localStorage.getItem("admin");
-
 //添加样式
 function addCss() {
   $(".menu-list").css({
@@ -259,93 +374,4 @@ function addCss() {
     color: "white",
     "margin-left": "10px",
   });
-}
-
-if (homepage) {
-  navArr.push(homepage);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("homepage") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-if (student) {
-  navArr.push(student);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("student") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-if (bulletin) {
-  navArr.push(bulletin);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("bulletin") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-if (admin) {
-  navArr.push(admin);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("admin") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-if (dorm) {
-  navArr.push(dorm);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("dorm") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-
-//面包屑点击事件
-
-var navDiv = document.getElementsByClassName("menu-list");
-
-for (var i = 0; i < navDiv.length; i++) {
-  navDiv[i].onclick = function () {
-    //获得点击数据
-    var clickTest = this.firstChild.nodeValue;
-    console.log(this.firstChild.nodeValue);
-    if (clickTest == "公告主页") {
-      console.log("zhelizhelizheli", clickTest);
-      localStorage.removeItem("homepage");
-      window.history.go(0);
-    }
-    if (clickTest == "宿舍管理") {
-      localStorage.removeItem("dorm");
-      window.history.go(0);
-    }
-    if (clickTest == "学生管理") {
-      localStorage.removeItem("student");
-      window.history.go(0);
-    }
-    if (clickTest == "公告管理") {
-      localStorage.removeItem("bulletin");
-      window.history.go(0);
-    }
-    if (clickTest == "管理员管理") {
-      localStorage.removeItem("admin");
-      window.history.go(0);
-    }
-  };
 }

@@ -138,9 +138,9 @@ function render() {
 }
 render();
 
-$(".nav-link").on("click", function () {
-  localStorage.setItem("nav-link", $(this).html());
-});
+// $(".nav-link").on("click", function () {
+//   localStorage.setItem("nav-link", $(this).html());
+// });
 
 //面包屑导航事件
 
@@ -157,52 +157,52 @@ var homepage = localStorage.getItem("homepage");
 var student = localStorage.getItem("student");
 
 //添加样式
-function addCss() {
-  $(".menu-list").css({
-    height: "25px",
-    width: "100px",
-    background: "#0f6efd",
-    color: "white",
-    "text-align": "center",
-    "line-height": "25px",
-    "border-radius": "3px",
-    margin: "10px",
-    "font-size": "14px",
-  });
-  $(".menu-row").css({
-    display: "flex",
-    " align-items": "center",
-    "align-content": "center",
-  });
-  $(".menu-list a").css({
-    "text-decoration": "none",
-    color: "white",
-    "margin-left": "10px",
-  });
-}
+// function addCss() {
+//   $(".menu-list").css({
+//     height: "25px",
+//     width: "100px",
+//     background: "#0f6efd",
+//     color: "white",
+//     "text-align": "center",
+//     "line-height": "25px",
+//     "border-radius": "3px",
+//     margin: "10px",
+//     "font-size": "14px",
+//   });
+//   $(".menu-row").css({
+//     display: "flex",
+//     " align-items": "center",
+//     "align-content": "center",
+//   });
+//   $(".menu-list a").css({
+//     "text-decoration": "none",
+//     color: "white",
+//     "margin-left": "10px",
+//   });
+// }
 
-if (homepage) {
-  navArr.push(homepage);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("homepage") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
-if (student) {
-  navArr.push(student);
-  $(".menu-row").append(
-    $(
-      '<div class="menu-list">' +
-        localStorage.getItem("student") +
-        '<a href="javascript:;">x</a></div>'
-    )
-  );
-  addCss();
-}
+// if (homepage) {
+//   navArr.push(homepage);
+//   $(".menu-row").append(
+//     $(
+//       '<div class="menu-list">' +
+//         localStorage.getItem("homepage") +
+//         '<a href="javascript:;">x</a></div>'
+//     )
+//   );
+//   addCss();
+// }
+// if (student) {
+//   navArr.push(student);
+//   $(".menu-row").append(
+//     $(
+//       '<div class="menu-list">' +
+//         localStorage.getItem("student") +
+//         '<a href="javascript:;">x</a></div>'
+//     )
+//   );
+//   addCss();
+// }
 
 //面包屑点击事件
 

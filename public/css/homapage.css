@@ -1,10 +1,6 @@
 @import url(common.css);
 @import url(nav.css);
 
-.addColor {
-  color: #0f6efd;
-}
-
 #homepage {
   position: absolute;
   margin-left: 200px;
@@ -12,6 +8,7 @@
   margin-bottom: 110px;
   width: 85%;
   /* border: 1px solid pink; */
+  margin-top: 20px;
 }
 .userNamePanel {
   font-size: 12px;
@@ -31,12 +28,12 @@
   right: 110px;
 }
 
-#separate-line {
+/* #separate-line {
   width: 100%;
   height: 1px;
   border: 1px solid lightgray;
   margin-top: 20px;
-}
+} */
 
 .list-group {
   margin-top: 30px;
@@ -82,19 +79,27 @@
 .menu-list {
   height: 25px;
   width: 100px;
-  background: #0f6efd;
-  color: white;
+  /* background: #0f6efd; */
+  background: whitesmoke;
+  color: black;
   text-align: center;
   line-height: 25px;
   border-radius: 3px;
   margin: 10px;
   font-size: 14px;
+  cursor: pointer;
 }
 
 .menu-list a {
   text-decoration: none;
-  color: white;
+  color: black;
   margin-left: 10px;
+  cursor: pointer;
+}
+
+.active {
+  background: #0f6efd;
+  color: white;
 }
 
 #page-switch {
