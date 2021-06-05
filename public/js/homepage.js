@@ -26,8 +26,15 @@
 
 //导航栏点击事件
 
+function addColor(_this) {
+  $(_this).parent().siblings().children().css({ color: "" });
+  $(_this).attr("style", "color: #0f6efd");
+  $(_this).siblings().attr("style", "color: #0f6efd");
+}
+
 $(".nav-link").each(function (i) {
   $(this).on("click", function () {
+    var _this = $(this);
     if ($(this).attr("data-name") == "homepage") {
       console.log("点击主页");
       $("#homepage").show();
@@ -35,38 +42,47 @@ $(".nav-link").each(function (i) {
       $("#student-admin-homepage").hide();
       $("#bulletin-homepage").hide();
       $("#admin-homepage").hide();
+      addColor(_this);
     }
     if ($(this).attr("data-name") == "dorm") {
       console.log("点击宿舍管理");
+      var _this = $(this);
       $("#dorm-homepage").show();
       $("#homepage").hide();
       $("#student-admin-homepage").hide();
       $("#bulletin-homepage").hide();
       $("#admin-homepage").hide();
+      addColor(_this);
     }
     if ($(this).attr("data-name") == "student") {
       console.log("学生管理");
+      var _this = $(this);
       $("#student-admin-homepage").show();
       $("#dorm-homepage").hide();
       $("#homepage").hide();
       $("#bulletin-homepage").hide();
       $("#admin-homepage").hide();
+      addColor(_this);
     }
     if ($(this).attr("data-name") == "bulletin") {
       console.log("公告管理");
+      var _this = $(this);
       $("#bulletin-homepage").show();
       $("#student-admin-homepage").hide();
       $("#dorm-homepage").hide();
       $("#homepage").hide();
       $("#admin-homepage").hide();
+      addColor(_this);
     }
     if ($(this).attr("data-name") == "admin") {
       console.log("管理员页面");
+      var _this = $(this);
       $("#admin-homepage").show();
       $("#bulletin-homepage").hide();
       $("#student-admin-homepage").hide();
       $("#dorm-homepage").hide();
       $("#homepage").hide();
+      addColor(_this);
     }
   });
 });

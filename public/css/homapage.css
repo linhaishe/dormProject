@@ -1,6 +1,10 @@
 @import url(common.css);
 @import url(nav.css);
 
+.addColor {
+  color: #0f6efd;
+}
+
 #homepage {
   position: absolute;
   margin-left: 200px;
