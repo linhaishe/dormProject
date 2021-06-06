@@ -1,15 +1,54 @@
 @import url(common.css);
 @import url(nav.css);
 
-#homepage {
+/* 主页面版位置固定 */
+
+#homepage,
+#dorm-homepage,
+#student-admin-homepage,
+#admin-homepage {
   position: absolute;
   margin-left: 200px;
   padding: 20px;
   margin-bottom: 110px;
   width: 85%;
-  /* border: 1px solid pink; */
+}
+
+#homepage {
   margin-top: 20px;
 }
+
+/* 宿舍主页面版位置固定 */
+#dorm-homepage,
+#student-admin-homepage,
+#admin-homepage {
+  display: none;
+  margin-top: 60px;
+}
+
+/* 增删改查内容样式 */
+
+#add-container,
+#addStuContainer,
+#addBulletinContainer,
+#addAdminContainer,
+#delete-container,
+#deleteStuContainer,
+#deleteNewscontainer,
+#deleteAdminContainer,
+#modify-container,
+#modifyStuContainer,
+#modifyNewscontainer,
+#modifyAdminContainer,
+#getFee-container {
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid red; */
+  background-color: rgba(128, 128, 128, 0.3);
+  position: absolute;
+  top: 0;
+}
+
 .userNamePanel {
   font-size: 12px;
 }
@@ -35,6 +74,7 @@
   margin-top: 20px;
 } */
 
+/* 主页面版公告样式 */
 .list-group {
   margin-top: 30px;
 }
@@ -47,6 +87,7 @@
   border-top-width: 0;
 }
 
+/* 登入成功通知 */
 #login-success {
   width: 350px;
   height: 40px;
@@ -63,6 +104,8 @@
   display: none;
 }
 
+/* 横向导航栏样式 */
+
 .menu-row {
   display: flex;
   /* justify-items: center; */
@@ -75,6 +118,8 @@
 
   /* border: 1px solid red; */
 }
+
+/* 横向导航栏内容样式 */
 
 .menu-list {
   height: 25px;
@@ -102,6 +147,8 @@
   color: white;
 }
 
+/* 底部页面切换 */
+
 #page-switch {
   /* margin: 0 auto; */
   text-align: center;
@@ -119,8 +166,40 @@
   margin-top: 50px;
 }
 
+/* 地底部页面链接 */
 #page-switch a {
   padding: 5px;
   text-decoration: none;
   color: black;
+}
+
+/* 搜索，重置，添加的按钮位置距离 */
+.btn {
+  font-size: 12px;
+  margin-left: 20px;
+}
+
+/* 搜索框样式 */
+
+#search-container {
+  margin-top: 30px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+#search-container input {
+  width: 200px;
+  font-size: 12px;
+  padding: 5px;
+}
+
+/* 表格框内容和样式显示 */
+#table-container {
+  margin-top: 30px;
+  text-align: center;
+}
+
+#table-container a {
+  margin-left: 5px;
 }

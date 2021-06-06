@@ -25,14 +25,16 @@
 // }
 
 //左侧导航栏点击事件
-$(".menu-list").hide();
-$(".menu-list").eq(0).show();
+// $(".menu-list").hide();
+// $(".menu-list").eq(0).show();
 
 function addColor(_this) {
   $(_this).parent().siblings().children().css({ color: "" });
   $(_this).attr("style", "color: #0f6efd");
   $(_this).siblings().attr("style", "color: #0f6efd");
 }
+
+//左侧导航栏点击事件
 
 $(".nav-link").each(function (i) {
   $(this).on("click", function () {
@@ -51,6 +53,7 @@ $(".nav-link").each(function (i) {
       $(".menu-list").children().css({ color: "black" });
       $(".menu-list").eq(0).addClass("active");
       $(".menu-list").eq(0).children().css({ color: "white" });
+      $("tbody tr").show();
     }
     if ($(this).attr("data-name") == "dorm") {
       console.log("点击宿舍管理");
@@ -66,6 +69,7 @@ $(".nav-link").each(function (i) {
       $(".menu-list").children().css({ color: "black" });
       $(".menu-list").eq(1).addClass("active");
       $(".menu-list").eq(1).children().css({ color: "white" });
+      $("tbody tr").show();
     }
     if ($(this).attr("data-name") == "student") {
       console.log("学生管理");
@@ -81,6 +85,7 @@ $(".nav-link").each(function (i) {
       $(".menu-list").children().css({ color: "black" });
       $(".menu-list").eq(2).addClass("active");
       $(".menu-list").eq(2).children().css({ color: "white" });
+      $("tbody tr").show();
     }
     if ($(this).attr("data-name") == "bulletin") {
       console.log("公告管理");
@@ -96,6 +101,7 @@ $(".nav-link").each(function (i) {
       $(".menu-list").children().css({ color: "black" });
       $(".menu-list").eq(3).addClass("active");
       $(".menu-list").eq(3).children().css({ color: "white" });
+      $("tbody tr").show();
     }
     if ($(this).attr("data-name") == "admin") {
       console.log("管理员页面");
@@ -111,11 +117,13 @@ $(".nav-link").each(function (i) {
       $(".menu-list").children().css({ color: "black" });
       $(".menu-list").eq(4).addClass("active");
       $(".menu-list").eq(4).children().css({ color: "white" });
+      $("tbody tr").show();
     }
   });
 });
 
 //横向导航栏点击事件
+
 //获得按钮
 //点击后显示相应页面，并更改样式
 $(".menu-list").each(function (i) {
@@ -220,6 +228,52 @@ $(".exit a").on("click", function () {
   //清空缓存
   localStorage.clear();
 });
+
+//搜索
+$(".search").on("click", function () {
+  var searchText =
+    $(".dormSearch").val() ||
+    $(".stuSearch").val() ||
+    $(".bulletinSearch").val() ||
+    $(".adminSearch").val();
+  if ($.trim(searchText) != "") {
+    $("tbody tr")
+      .hide()
+      .filter(":contains('" + searchText + "')")
+      .show();
+  }
+});
+
+//重置
+$(".reset").on("click", function () {
+  $(".dormSearch").val("");
+  $(".stuSearch").val("");
+  $(".bulletinSearch").val("");
+  $(".adminSearch").val("");
+  // render();
+  // createPage();
+});
+
+//修改点击事件
+// for (let i = 0; i < $("a").length; i++) {
+//   if ($("a").eq(i).html() == "修改") {
+//     $("a")
+//       .eq(i)
+//       .on("click", function () {
+//         $("#modify-container").show();
+//         $("#modify-dormId").val(
+//           $(this).parents("tr").children().first().text()
+//         );
+//         $("#modify-dormName").val(
+//           $(this).parents("tr").children().eq(1).text()
+//         );
+//         $("#numOfPeople").val($(this).parents("tr").children().eq(2).text());
+//         $("#chargefee").val($(this).parents("tr").children().eq(3).text());
+//         id = $(this).parents("tr").attr("data-id");
+//         type = $(this).parents("tr").children().eq(4).text();
+//       });
+//   }
+// }
 
 var arr = []; //存所有的数据;
 var count = 5; //一页多少条数据

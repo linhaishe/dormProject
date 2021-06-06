@@ -1,82 +1,16 @@
 @import url(common.css);
 @import url(nav.css);
 
-#admin-homepage {
-  position: absolute;
-  margin-left: 200px;
-  padding: 20px;
-  margin-bottom: 110px;
-  width: 85%;
-  /* border: 1px solid pink; */
-  display: none;
-  margin-top: 60px;
-}
-
-.bi-person-circle {
-  color: white;
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  position: absolute;
-  right: 110px;
-}
-
-.btn-group .exit {
-  min-width: 89px;
-  padding: 0;
-  text-align: center;
-  left: 20px;
-}
-
-#search-container {
-  /* border: 1px solid red; */
-  margin-top: 30px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-}
-
-.btn {
-  font-size: 12px;
-  margin-left: 20px;
-}
-
-#search-container input {
-  width: 200px;
-  font-size: 12px;
-  padding: 5px;
-}
-
-#table-container {
-  margin-top: 30px;
-  text-align: center;
-}
-
-#table-container a {
-  margin-left: 5px;
-}
-
-#add-container,
-#delete-container,
-#modify-container {
-  width: 100%;
-  height: 100%;
-  /* border: 1px solid red; */
-  background-color: rgba(128, 128, 128, 0.3);
-  position: absolute;
-  top: 0;
-}
-
-#add-container {
+#addAdminContainer {
   display: none;
   /* display: block; */
 }
 
-#delete-container {
+#deleteAdminContainer {
   display: none;
   /* display: block; */
 }
-#modify-container {
+#modifyAdminContainer {
   display: none;
   /* display: block; */
 }
@@ -176,25 +110,25 @@
   font-size: 12px;
 }
 
-#add-container .col-auto,
-#modify-container .col-auto {
+#addAdminContainer .col-auto,
+#modifyAdminContainer .col-auto {
   margin-top: 30px;
   display: flex;
   justify-content: center;
 }
 
-#delete-container .col-auto,
-#modify-container .col-auto {
+#deleteAdminContainer .col-auto,
+#modifyAdminContainer .col-auto {
   margin-top: 10px;
   display: flex;
   justify-content: center;
 }
 
-#delete-container p {
+#deleteAdminContainer p {
   text-align: center;
 }
 
-#delete-container i {
+#deleteAdminContainer i {
   margin-right: 10px;
 }
 

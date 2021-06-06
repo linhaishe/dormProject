@@ -22,24 +22,50 @@
 //   console.log(jsonObj.stuName);
 // }
 
+// 公告添加事件
+
 $(".add-news").on("click", function () {
-  $("#add-container").show();
+  $("#addBulletinContainer").show();
   $(".warning").hide();
 });
 
+for (let i = 0; i < $("a").length; i++) {
+  var clickText = $("a").eq(i).attr("class");
+  switch (clickText) {
+    case "delNews":
+      $("a")
+        .eq(i)
+        .on("click", function () {
+          $("#deleteNewscontainer").show();
+          // id = $(this).parents("tr").attr("data-id");
+          // type = console.log(id);
+        });
+      break;
+    case "newsUpdate":
+      $("a")
+        .eq(i)
+        .on("click", function () {
+          $("#modifyNewscontainer").show();
+          // id = $(this).parents("tr").attr("data-id");
+          // type = console.log(id);
+        });
+      break;
+  }
+}
+
 $(".close").on("click", function () {
-  $("#add-container").hide();
-  $("#delete-container").hide();
-  $("#modify-container").hide();
+  $("#addBulletinContainer").hide();
+  $("#deleteNewscontainer").hide();
+  $("#modifyNewscontainer").hide();
 });
 
 for (let i = 0; i < $(".cancel").length; i++) {
   $(".cancel")
     .eq(i)
     .on("click", function () {
-      $("#add-container").hide();
-      $("#delete-container").hide();
-      $("#modify-container").hide();
+      $("#addBulletinContainer").hide();
+      $("#deleteNewscontainer").hide();
+      $("#modifyNewscontainer").hide();
     });
 }
 
@@ -111,7 +137,7 @@ function render() {
       $("a")
         .eq(i)
         .on("click", function () {
-          $("#delete-container").show();
+          $("#deleteNewscontainer").show();
           id = $(this).parents("tr").children().first().text();
           console.log(id);
         });
@@ -123,7 +149,7 @@ function render() {
       $("a")
         .eq(i)
         .on("click", function () {
-          $("#modify-container").show();
+          $("#modifyNewscontainer").show();
           $("#newsId").val($(this).parents("tr").children().first().text());
           $("#newTitle").val($(this).parents("tr").children().eq(1).html());
           $("#modify-news-content").val(
@@ -192,7 +218,7 @@ $(".add-bulletin-confirm").on("click", function () {
     type: "post",
     success: function (res) {
       if (res.code == 200) {
-        $("#add-container").hide();
+        $("#addBulletinContainer").hide();
         getUser();
         console.log(res);
       }
@@ -208,7 +234,7 @@ $(".delete-bulletin-confirm").on("click", function () {
     type: "post",
     success: function (res) {
       if (res.code == 200) {
-        $("#delete-container").hide();
+        $("#deleteNewscontainer").hide();
         getUser();
         console.log(res);
       }
@@ -228,7 +254,7 @@ $(".modify-bulletin-confirm").on("click", function () {
     type: "post",
     success: function (res) {
       if (res.code == 200) {
-        $("#modify-container").hide();
+        $("#modifyNewscontainer").hide();
         getUser();
         console.log(res);
       }
@@ -345,22 +371,22 @@ var admin = localStorage.getItem("admin");
 // }
 
 //搜索
-$(".search").on("click", function () {
-  var searchText = $(".bulletinSearch").val();
-  if ($.trim(searchText) != "") {
-    $("tbody tr")
-      .hide()
-      .filter(":contains('" + searchText + "')")
-      .show();
-  }
-});
+// $(".search").on("click", function () {
+//   var searchText = $(".bulletinSearch").val();
+//   if ($.trim(searchText) != "") {
+//     $("tbody tr")
+//       .hide()
+//       .filter(":contains('" + searchText + "')")
+//       .show();
+//   }
+// });
 
-//重置
-$(".reset").on("click", function () {
-  $(".bulletinSearch").val("");
-  render();
-  createPage();
-});
+// //重置
+// $(".reset").on("click", function () {
+//   $(".bulletinSearch").val("");
+//   render();
+//   createPage();
+// });
 
 //面包屑点击事件
 

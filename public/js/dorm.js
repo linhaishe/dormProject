@@ -29,6 +29,7 @@ $(".exit a").on("click", function () {
   localStorage.clear();
 });
 
+//添加宿舍点击事件
 $(".add-dorm").on("click", function () {
   $("#add-container").show();
   $(".warning").hide();
@@ -50,6 +51,58 @@ for (let i = 0; i < $(".cancel").length; i++) {
       $("#modify-container").hide();
       $("#getFee-container").hide();
     });
+}
+
+for (let i = 0; i < $("a").length; i++) {
+  var clickText = $("a").eq(i).attr("class");
+  switch (clickText) {
+    case "delDorm":
+      $("a")
+        .eq(i)
+        .on("click", function () {
+          $("#delete-container").show();
+          // id = $(this).parents("tr").attr("data-id");
+          // type = console.log(id);
+        });
+      break;
+    case "dormUpdate":
+      $("a")
+        .eq(i)
+        .on("click", function () {
+          $("#modify-container").show();
+          // id = $(this).parents("tr").attr("data-id");
+          // type = console.log(id);
+        });
+      break;
+  }
+}
+
+//改为正常，发起催款
+for (let i = 0; i < $("a").length; i++) {
+  if ($("a").eq(i).html() == "改为正常") {
+    $("a")
+      .eq(i)
+      .on("click", function () {
+        $("#getFee-container").show();
+        id = $(this).parents("tr").attr("data-id");
+        type = $(this).parents("tr").children().eq(4).text();
+        console.log(id);
+        console.log(type);
+      });
+  }
+}
+for (let i = 0; i < $("a").length; i++) {
+  if ($("a").eq(i).html() == "发起催款") {
+    $("a")
+      .eq(i)
+      .on("click", function () {
+        $("#getFee-container").show();
+        id = $(this).parents("tr").attr("data-id");
+        type = $(this).parents("tr").children().eq(4).text();
+        console.log(id);
+        console.log(type);
+      });
+  }
 }
 
 //获取宿舍页面
@@ -113,64 +166,64 @@ function render() {
     );
   });
 
-  for (let i = 0; i < $("a").length; i++) {
-    if ($("a").eq(i).html() == "删除") {
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#delete-container").show();
-          id = $(this).parents("tr").attr("data-id");
-          type = console.log(id);
-        });
-    }
-  }
+  // for (let i = 0; i < $("a").length; i++) {
+  //   if ($("a").eq(i).html() == "删除") {
+  //     $("a")
+  //       .eq(i)
+  //       .on("click", function () {
+  //         $("#delete-container").show();
+  //         id = $(this).parents("tr").attr("data-id");
+  //         type = console.log(id);
+  //       });
+  //   }
+  // }
 
-  for (let i = 0; i < $("a").length; i++) {
-    if ($("a").eq(i).html() == "修改") {
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#modify-container").show();
-          $("#modify-dormId").val(
-            $(this).parents("tr").children().first().text()
-          );
-          $("#modify-dormName").val(
-            $(this).parents("tr").children().eq(1).text()
-          );
-          $("#numOfPeople").val($(this).parents("tr").children().eq(2).text());
-          $("#chargefee").val($(this).parents("tr").children().eq(3).text());
-          id = $(this).parents("tr").attr("data-id");
-          type = $(this).parents("tr").children().eq(4).text();
-        });
-    }
-  }
+  // for (let i = 0; i < $("a").length; i++) {
+  //   if ($("a").eq(i).html() == "修改") {
+  //     $("a")
+  //       .eq(i)
+  //       .on("click", function () {
+  //         $("#modify-container").show();
+  //         $("#modify-dormId").val(
+  //           $(this).parents("tr").children().first().text()
+  //         );
+  //         $("#modify-dormName").val(
+  //           $(this).parents("tr").children().eq(1).text()
+  //         );
+  //         $("#numOfPeople").val($(this).parents("tr").children().eq(2).text());
+  //         $("#chargefee").val($(this).parents("tr").children().eq(3).text());
+  //         id = $(this).parents("tr").attr("data-id");
+  //         type = $(this).parents("tr").children().eq(4).text();
+  //       });
+  //   }
+  // }
 
-  for (let i = 0; i < $("a").length; i++) {
-    if ($("a").eq(i).html() == "改为正常") {
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#getFee-container").show();
-          id = $(this).parents("tr").attr("data-id");
-          type = $(this).parents("tr").children().eq(4).text();
-          console.log(id);
-          console.log(type);
-        });
-    }
-  }
-  for (let i = 0; i < $("a").length; i++) {
-    if ($("a").eq(i).html() == "发起催款") {
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#getFee-container").show();
-          id = $(this).parents("tr").attr("data-id");
-          type = $(this).parents("tr").children().eq(4).text();
-          console.log(id);
-          console.log(type);
-        });
-    }
-  }
+  // for (let i = 0; i < $("a").length; i++) {
+  //   if ($("a").eq(i).html() == "改为正常") {
+  //     $("a")
+  //       .eq(i)
+  //       .on("click", function () {
+  //         $("#getFee-container").show();
+  //         id = $(this).parents("tr").attr("data-id");
+  //         type = $(this).parents("tr").children().eq(4).text();
+  //         console.log(id);
+  //         console.log(type);
+  //       });
+  //   }
+  // }
+  // for (let i = 0; i < $("a").length; i++) {
+  //   if ($("a").eq(i).html() == "发起催款") {
+  //     $("a")
+  //       .eq(i)
+  //       .on("click", function () {
+  //         $("#getFee-container").show();
+  //         id = $(this).parents("tr").attr("data-id");
+  //         type = $(this).parents("tr").children().eq(4).text();
+  //         console.log(id);
+  //         console.log(type);
+  //       });
+  //   }
+  // }
 }
 
 //创建页码
@@ -398,24 +451,6 @@ var admin = localStorage.getItem("admin");
 //   );
 //   addCss();
 // }
-
-//搜索
-$(".search").on("click", function () {
-  var searchText = $(".dormSearch").val();
-  if ($.trim(searchText) != "") {
-    $("tbody tr")
-      .hide()
-      .filter(":contains('" + searchText + "')")
-      .show();
-  }
-});
-
-//重置
-$(".reset").on("click", function () {
-  $(".dormSearch").val("");
-  render();
-  createPage();
-});
 
 // //面包屑点击事件
 
