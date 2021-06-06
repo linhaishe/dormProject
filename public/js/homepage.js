@@ -25,8 +25,15 @@
 // }
 
 //左侧导航栏点击事件
-// $(".menu-list").hide();
-// $(".menu-list").eq(0).show();
+$(".menu-list").hide();
+$(".menu-list").eq(0).show();
+
+//登入成功提示框
+$(document).ready(function () {
+  $("#login-success").fadeIn(500, function () {
+    $(this).fadeOut(1000);
+  });
+});
 
 function addColor(_this) {
   $(_this).parent().siblings().children().css({ color: "" });
@@ -241,6 +248,10 @@ $(".search").on("click", function () {
       .hide()
       .filter(":contains('" + searchText + "')")
       .show();
+    $(".dormSearch").val("");
+    $(".stuSearch").val("");
+    $(".bulletinSearch").val("");
+    $(".adminSearch").val("");
   }
 });
 
@@ -250,8 +261,8 @@ $(".reset").on("click", function () {
   $(".stuSearch").val("");
   $(".bulletinSearch").val("");
   $(".adminSearch").val("");
-  // render();
-  // createPage();
+  render();
+  createPage();
 });
 
 //修改点击事件
@@ -280,18 +291,12 @@ var count = 5; //一页多少条数据
 var page = 1; //当前的页数
 var n;
 
-//登入成功提示框
-$(document).ready(function () {
-  $("#login-success").fadeIn(500, function () {
-    $(this).fadeOut(1000);
-  });
-});
-
+//公告页数据获取和渲染
 $.ajax({
-  url: "/api/notice/getnotice",
+  url: "/news/getnews",
   success: function (res) {
     //获取数据成功后
-
+    console.log("获取公告内容", res.data);
     if (res.data.length) {
       //变成数组对象 [{},{},...]
       //将数据的内容存放到数组中，方便获取和遍历
@@ -318,20 +323,20 @@ function createBulletin() {
   // n  (n-1)*5 -  5*n
 
   //每次调用后先清空页面
-  $(".list-group").html("");
+  $("#newsPage").html("");
 
   //遍历arr中的数据添加到节点中，并渲染
   //function中的参数 i,v 的顺序不能变
   //遍历中都有i,v,记得复习
   $.each(arr.slice((page - 1) * count, page * count), function (i, v) {
-    $(".list-group").append(
+    $("#newsPage").append(
       '  <a href="#" class="list-group-item list-group-item-action">\
           <div class="d-flex w-100 justify-content-between">\
             <h5 class="mb-1">' +
         v.title +
         "</h5>\
             <small>" +
-        v.mytime +
+        v.uploadTime +
         '</small>\
           </div>\
           <p class="mb-1">' +
