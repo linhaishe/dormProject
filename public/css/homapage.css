@@ -6,7 +6,8 @@
 #homepage,
 #dorm-homepage,
 #student-admin-homepage,
-#admin-homepage {
+#admin-homepage,
+#bulletin-homepage {
   position: absolute;
   margin-left: 200px;
   padding: 20px;
@@ -21,7 +22,8 @@
 /* 宿舍主页面版位置固定 */
 #dorm-homepage,
 #student-admin-homepage,
-#admin-homepage {
+#admin-homepage,
+#bulletin-homepage {
   display: none;
   margin-top: 60px;
 }
@@ -73,6 +75,10 @@
   border: 1px solid lightgray;
   margin-top: 20px;
 } */
+
+.warning {
+  font-size: 10px;
+}
 
 /* 主页面版公告样式 */
 .list-group {

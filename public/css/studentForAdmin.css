@@ -42,17 +42,6 @@
   margin-top: 20px;
 }
 
-#page-switch button {
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  border: 0px solid transparent;
-  outline: none;
-  cursor: pointer;
-  width: 30px;
-  color: lightgray;
-}
-
 #charge-record-container {
   display: none;
   /* display: block; */
@@ -205,34 +194,7 @@
   margin-left: 0;
 }
 
-#page-switch {
-  /* margin: 0 auto; */
-  text-align: center;
-}
-
-#page-switch button {
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  border: 0px solid transparent;
-  outline: none;
-  cursor: pointer;
-  width: 30px;
-  color: lightgray;
-  margin-top: 50px;
-}
-
-#page-switch a {
-  padding: 5px;
-  text-decoration: none;
-  color: black;
-}
-
 .main-dropdown-menu {
   max-height: 300px;
   overflow-y: auto;
-}
-
-.warning {
-  font-size: 10px;
 }

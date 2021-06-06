@@ -200,30 +200,3 @@
 #getFee-container i {
   margin-right: 10px;
 }
-
-#page-switch {
-  /* margin: 0 auto; */
-  text-align: center;
-}
-
-#page-switch button {
-  margin: 0;
-  padding: 0;
-  background-color: transparent;
-  border: 0px solid transparent;
-  outline: none;
-  cursor: pointer;
-  width: 30px;
-  color: lightgray;
-  margin-top: 50px;
-}
-
-#page-switch a {
-  padding: 5px;
-  text-decoration: none;
-  color: black;
-}
-
-.warning {
-  font-size: 10px;
-}
