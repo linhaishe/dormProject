@@ -36,39 +36,6 @@ $(".exit a").on("click", function () {
 
 //学生管理增删改查点击事件
 
-for (let i = 0; i < $("a").length; i++) {
-  var clickText = $("a").eq(i).attr("class");
-  switch (clickText) {
-    case "delStu":
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#deleteStuContainer").show();
-          // id = $(this).parents("tr").attr("data-id");
-          // type = console.log(id);
-        });
-      break;
-    case "stuUpdate":
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#modifyStuContainer").show();
-          // id = $(this).parents("tr").attr("data-id");
-          // type = console.log(id);
-        });
-      break;
-    case "stuCheckFee":
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#charge-record-container").show();
-          // id = $(this).parents("tr").attr("data-id");
-          // type = console.log(id);
-        });
-      break;
-  }
-}
-
 //添加学生点击事件
 
 $(".add-student").on("click", function () {
@@ -104,106 +71,139 @@ var n;
 
 console.log(arr);
 
-// function getUser() {
-//   $.ajax({
-//     url: "/api/student/getstudent",
-//     // data: {},
-//     type: "get",
-//     success: function (res) {
-//       if (res.data.length) {
-//         arr = res.data;
-//         console.log(res);
-//         render();
-//         createPage();
-//       }
-//     },
-//   });
-// }
+function getStudents() {
+  $.ajax({
+    url: "/student/getstudent",
+    // data: {},
+    type: "get",
+    success: function (res) {
+      if (res.data.length) {
+        arr = res.data;
+        console.log("stuarr", arr);
+        stuRender();
+        createStuPage();
+      }
+    },
+  });
+}
 
-// getUser();
+getStudents();
 
-// function render() {
-//   $("#mainPageTbody").html("");
-//   $.each(arr.slice((page - 1) * count, page * count), function (i, v) {
-//     $("#mainPageTbody").append(
-//       "            <tr data-pass=" +
-//         v.stuPas +
-//         " data-id=" +
-//         v.id +
-//         '>\
-//               <th scope="row">' +
-//         v.stuId +
-//         "</th>\
-//               <td>" +
-//         v.stuName +
-//         "</td>\
-//               <td>" +
-//         v.stuUserId +
-//         "</td>\
-//               <td>" +
-//         v.dormId +
-//         "</td>\
-//               <td>" +
-//         v.balance +
-//         "</td>\
-//               <td>" +
-//         (v.type == 1 ? "正常" : "催费") +
-//         '</td>\
-//               <td>\
-//                 <a href="#">删除</a><a href="#">修改</a\
-//                 ><a href="#">查看缴费记录</a>\
-//               </td>\
-//             </tr>\
-// '
-//     );
-//   });
+function stuRender() {
+  $("#mainPageTbody").html("");
+  $.each(arr.slice((page - 1) * count, page * count), function (i, v) {
+    $("#mainPageTbody").append(
+      "            <tr data-pass=" +
+        v.stuPwd +
+        " data-id=" +
+        v.id +
+        '>\
+              <th scope="row">' +
+        v.stuId +
+        "</th>\
+              <td>" +
+        v.stuName +
+        "</td>\
+              <td>" +
+        v.stuUserId +
+        "</td>\
+              <td>" +
+        v.dormId +
+        "</td>\
+              <td>" +
+        v.balance +
+        "</td>\
+              <td>" +
+        (v.dormType == 1 ? "正常" : "催费") +
+        '</td>\
+              <td>\
+                <a href="#">删除</a><a href="#">修改</a\
+                ><a href="#">查看缴费记录</a>\
+              </td>\
+            </tr>\
+'
+    );
+  });
 
-//   for (let i = 0; i < $("a").length; i++) {
-//     if ($("a").eq(i).html() == "查看缴费记录") {
-//       $("a")
-//         .eq(i)
-//         .on("click", function () {
-//           $("#charge-record-container").show();
-//         });
-//     }
-//   }
+  for (let i = 0; i < $("a").length; i++) {
+    var clickText = $("a").eq(i).attr("class");
+    switch (clickText) {
+      case "delStu":
+        $("a")
+          .eq(i)
+          .on("click", function () {
+            $("#deleteStuContainer").show();
+            // id = $(this).parents("tr").attr("data-id");
+            // type = console.log(id);
+          });
+        break;
+      case "stuUpdate":
+        $("a")
+          .eq(i)
+          .on("click", function () {
+            $("#modifyStuContainer").show();
+            // id = $(this).parents("tr").attr("data-id");
+            // type = console.log(id);
+          });
+        break;
+      case "stuCheckFee":
+        $("a")
+          .eq(i)
+          .on("click", function () {
+            $("#charge-record-container").show();
+            // id = $(this).parents("tr").attr("data-id");
+            // type = console.log(id);
+          });
+        break;
+    }
+  }
 
-//   for (let i = 0; i < $("a").length; i++) {
-//     if ($("a").eq(i).html() == "删除") {
-//       $("a")
-//         .eq(i)
-//         .on("click", function () {
-//           $("#deleteStuContainer").show();
-//           id = $(this).parents("tr").attr("data-id");
-//         });
-//     }
-//   }
+  // for (let i = 0; i < $("a").length; i++) {
+  //   if ($("a").eq(i).html() == "查看缴费记录") {
+  //     $("a")
+  //       .eq(i)
+  //       .on("click", function () {
+  //         $("#charge-record-container").show();
+  //       });
+  //   }
+  // }
 
-//   for (let i = 0; i < $("a").length; i++) {
-//     if ($("a").eq(i).html() == "修改") {
-//       $("a")
-//         .eq(i)
-//         .on("click", function () {
-//           $("#modifyStuContainer").show();
-//           $("#modify-stuId").val(
-//             $(this).parents("tr").children().first().text()
-//           );
-//           $("#modify-stuName").val(
-//             $(this).parents("tr").children().eq(1).text()
-//           );
-//           $("#modify-stuAccount").val(
-//             $(this).parents("tr").children().eq(2).text()
-//           );
-//           $("#modifyStuPwd").val($(this).parents("tr").attr("data-pass"));
-//           id = $(this).parents("tr").attr("data-id");
-//           $(".dropdown button").text("请选择所属宿舍");
-//         });
-//     }
-//   }
-// }
+  // for (let i = 0; i < $("a").length; i++) {
+  //   if ($("a").eq(i).html() == "删除") {
+  //     $("a")
+  //       .eq(i)
+  //       .on("click", function () {
+  //         $("#deleteStuContainer").show();
+  //         id = $(this).parents("tr").attr("data-id");
+  //       });
+  //   }
+  // }
+
+  // for (let i = 0; i < $("a").length; i++) {
+  //   if ($("a").eq(i).html() == "修改") {
+  //     $("a")
+  //       .eq(i)
+  //       .on("click", function () {
+  //         $("#modifyStuContainer").show();
+  //         $("#modify-stuId").val(
+  //           $(this).parents("tr").children().first().text()
+  //         );
+  //         $("#modify-stuName").val(
+  //           $(this).parents("tr").children().eq(1).text()
+  //         );
+  //         $("#modify-stuAccount").val(
+  //           $(this).parents("tr").children().eq(2).text()
+  //         );
+  //         $("#modifyStuPwd").val($(this).parents("tr").attr("data-pass"));
+  //         id = $(this).parents("tr").attr("data-id");
+  //         $(".dropdown button").text("请选择所属宿舍");
+  //       });
+  //   }
+  //}
+}
 
 //创建页码
-function createPage() {
+function createStuPage() {
   n = Math.ceil(arr.length / count);
   $("#page-switch a").remove();
   for (var i = 1; i <= n; i++) {
@@ -312,7 +312,7 @@ var dormArr = [];
 var dormIdName = [];
 
 $.ajax({
-  url: "/api/dorm/getdorm",
+  url: "/dorm/getdorms",
   type: "get",
   success: function (res) {
     if (res.code == 200) {

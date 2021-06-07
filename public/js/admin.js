@@ -1,20 +1,20 @@
-// //判断是否是学生，显示对应的页面
-// var json = localStorage.getItem("data");
-// var jsonObj = JSON.parse(json);
+//判断是否是学生，显示对应的页面
+var json = localStorage.getItem("data");
+var jsonObj = JSON.parse(json);
 // if (jsonObj.type == undefined) {
 //   $("#nav-left ul").children().eq(1).hide();
 //   $("#nav-left ul").children().eq(3).hide();
 //   $("#nav-left ul").children().eq(4).hide();
 // }
 
-// //页眉导航栏显示用户名
-// if (jsonObj.name) {
-//   $(".userNamePanel").html(jsonObj.name);
-//   console.log(jsonObj.name);
-// } else {
-//   $(".userNamePanel").html(jsonObj.stuName);
-//   console.log(jsonObj.stuName);
-// }
+//页眉导航栏显示用户名
+if (jsonObj.name) {
+  $(".userNamePanel").html(jsonObj.name);
+  console.log(jsonObj.name);
+} else {
+  $(".userNamePanel").html(jsonObj.stuName);
+  console.log(jsonObj.stuName);
+}
 
 //用户点击退出时，强制登入页面并清空用户数据
 
@@ -30,30 +30,6 @@ $(".exit a").on("click", function () {
 });
 
 //警告隐藏
-
-for (let i = 0; i < $("a").length; i++) {
-  var clickText = $("a").eq(i).attr("class");
-  switch (clickText) {
-    case "delAdmin":
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#deleteAdminContainer").show();
-          // id = $(this).parents("tr").attr("data-id");
-          // type = console.log(id);
-        });
-      break;
-    case "updateAdmin":
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#modifyAdminContainer").show();
-          // id = $(this).parents("tr").attr("data-id");
-          // type = console.log(id);
-        });
-      break;
-  }
-}
 
 // 点击添加显示页面
 $(".add-admin").on("click", function () {
@@ -114,123 +90,105 @@ $(function () {
 });
 
 //为了便于获取用户数据将此功能进行封装
-function getUser() {
+function getAdmin() {
   $.ajax({
-    url: "/api/admin/getadmin",
+    url: "/admins/getadmin",
     success: function (res) {
       console.log(res);
       if (res.data.length) {
         arr = res.data;
         console.log("arr", arr);
-        render();
-        createPage();
+        adminRender();
+        createAdminPage();
       }
     },
   });
 }
 
 //页面第一次加载时自动调用，获取数据
-getUser();
+getAdmin();
 
 // var loginUserArr = [];
 // loginUserArr.push(jsonObj);
 
 console.log("loginUserArr", loginUserArr);
 
-function render() {
-  $("tbody").html("");
-  if (jsonObj.type == 2) {
+function adminRender() {
+  $("#adminTbody").html("");
+  if (jsonObj.adminType == 2) {
     $.each(arr.slice((page - 1) * count, page * count), function (i, v) {
-      $("tbody").append(
+      $("#adminTbody").append(
         "            <tr data-pass=" +
-          v.password +
+          v.adminPwd +
           '>\
               <th scope="row">' +
           v.id +
           "</th>\
               <td>" +
-          v.name +
+          v.adminName +
           "</td>\
               <td>" +
-          v.userId +
+          v.adminId +
           "</td>\
               <td>" +
-          (v.type == 1 ? "普通管理员" : "超级管理员") +
+          (v.adminType == 1 ? "普通管理员" : "超级管理员") +
           '</td>\
-              <td><a href="#" >删除</a><a href="#" >修改</a></td>\
+              <td><a class="delAdmin" href="#" >删除</a><a class="updateAdmin" href="#" >修改</a></td>\
             </tr>\
 '
       );
     });
   }
 
-  if (jsonObj.type == 1) {
+  if (jsonObj.adminType == 1) {
     $(".add-admin").hide();
     $.each(loginUserArr, function (i, v) {
-      $("tbody").append(
+      $("#adminTbody").append(
         "            <tr data-pass=" +
-          v.password +
+          v.adminPwd +
           '>\
-              <th scope="row">' +
+                <th scope="row">' +
           v.id +
           "</th>\
-              <td>" +
-          v.name +
+                <td>" +
+          v.adminName +
           "</td>\
-              <td>" +
-          v.userId +
+                <td>" +
+          v.adminId +
           "</td>\
-              <td>" +
-          (v.type == 1 ? "普通管理员" : "超级管理员") +
+                <td>" +
+          (v.adminType == 1 ? "普通管理员" : "超级管理员") +
           '</td>\
-              <td><a href="#" >修改</a></td>\
-            </tr>\
-'
+                <td><a class="updateAdmin" href="#" >修改</a></td>\
+              </tr>\
+  '
       );
     });
   }
+  for (let i = 0; i < $("a").length; i++) {
+    var clickText = $("a").eq(i).attr("class");
+    switch (clickText) {
+      case "delAdmin":
+        $("a")
+          .eq(i)
+          .on("click", function () {
+            $("#deleteAdminContainer").show();
+            // id = $(this).parents("tr").attr("data-id");
+            // type = console.log(id);
+          });
+        break;
+      case "updateAdmin":
+        $("a")
+          .eq(i)
+          .on("click", function () {
+            $("#modifyAdminContainer").show();
+            // id = $(this).parents("tr").attr("data-id");
+            // type = console.log(id);
+          });
+        break;
+    }
+  }
 }
-// for (let i = 0; i < $("a").length; i++) {
-//   if ($("a").eq(i).html() == "删除") {
-//     $("a")
-//       .eq(i)
-//       .on("click", function () {
-//         $("#deleteAdminContainer").show();
-//         // console.log("点击删除按钮");
-//         console.log($(this).parents("tr").children().first().text());
-//         id = $(this).parents("tr").children().first().text();
-//       });
-//   }
-// }
-
-// for (let i = 0; i < $("a").length; i++) {
-//   if ($("a").eq(i).html() == "修改") {
-//     $("a")
-//       .eq(i)
-//       .on("click", function () {
-//         if (jsonObj.type == 1) {
-//           $("#modify-admin-type").siblings().children().eq(1).hide();
-//         }
-//         $("#modifyAdminContainer").show();
-//         //修改点击时将数据内容显示在修改面版上
-
-//         $("#modify-admin-id").val(
-//           $(this).parents("tr").children().first().text()
-//         );
-//         $("#modify-admin-name").val(
-//           $(this).parents("tr").children().eq(1).text()
-//         );
-//         $("#modify-admin-account").val(
-//           $(this).parents("tr").children().eq(2).text()
-//         );
-//         $("#modify-admin-pwd").val($(this).parents("tr").attr("data-pass"));
-//         $("#modify-admin-type").text(
-//           $(this).parents("tr").children().eq(3).text()
-//         );
-//       });
-//   }
-// }
-// }
 
 //获取管理员列表数据
 var arr = []; //存所有的数据;
@@ -238,16 +196,17 @@ var count = 10; //一页多少条数据
 var page = 1; //当前的页数
 var id;
 var n;
+
 $.ajax({
-  url: "/api/admin/getadmin",
+  url: "/admins/getadmin",
   //   data: {},
   //   type: "",
   success: function (res) {
-    console.log(res);
+    console.log(res.data);
     if (res.data.length) {
       arr = res.data;
-      render();
-      createPage();
+      readminRendernder();
+      createAdminPage();
     }
   },
 });
@@ -255,10 +214,10 @@ $.ajax({
 //创建管理员界面
 
 function createAdminListPage() {
-  $("tbody").html("");
+  $("#adminTbody").html("");
   if (jsonObj.type == 1) {
     $.each(jsonObj, function (i, v) {
-      $("tbody").append(
+      $("#adminTbody").append(
         "            <tr data-pass=" +
           v.password +
           '>\
@@ -375,7 +334,7 @@ $(".add-admin-confirm").on("click", function () {
   }
 
   $.ajax({
-    url: "/api/admin/addadmin",
+    url: "/admin/addadmin",
     data: {
       name: $("#add-admin-name").val(),
       password: $("#add-psw").val(),

@@ -29,30 +29,6 @@ $(".add-news").on("click", function () {
   $(".warning").hide();
 });
 
-for (let i = 0; i < $("a").length; i++) {
-  var clickText = $("a").eq(i).attr("class");
-  switch (clickText) {
-    case "delNews":
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#deleteNewscontainer").show();
-          // id = $(this).parents("tr").attr("data-id");
-          // type = console.log(id);
-        });
-      break;
-    case "newsUpdate":
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#modifyNewscontainer").show();
-          // id = $(this).parents("tr").attr("data-id");
-          // type = console.log(id);
-        });
-      break;
-  }
-}
-
 $(".close").on("click", function () {
   $("#addBulletinContainer").hide();
   $("#deleteNewscontainer").hide();
@@ -88,28 +64,28 @@ var page = 1; //当前的页数
 var id;
 var n;
 
-function getUser() {
+function getNews() {
   $.ajax({
-    url: "/api/notice/getnotice",
+    url: "/news/getnews",
     // data: {},
     type: "get",
     success: function (res) {
       if (res.data.length) {
         arr = res.data;
         console.log(res);
-        render();
-        createPage();
+        newsRender();
+        createNewsPage();
       }
     },
   });
 }
 
-getUser();
+getNews();
 
-function render() {
-  $("tbody").html("");
+function newsRender() {
+  $("#newsTbody").html("");
   $.each(arr.slice((page - 1) * count, page * count), function (i, v) {
-    $("tbody").append(
+    $("#newsTbody").append(
       '            <tr>\
               <th scope="row">' +
         v.id +
@@ -121,50 +97,73 @@ function render() {
         v.content +
         "</td>\
               <td>" +
-        v.mytime +
+        v.uploadTime +
         "</td>\
               <td>" +
-        v.name +
+        v.userName +
         '</td>\
               <td><a href="#">删除</a><a href="#">修改</a></td>\
             </tr>\
 '
     );
   });
-
   for (let i = 0; i < $("a").length; i++) {
-    if ($("a").eq(i).html() == "删除") {
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#deleteNewscontainer").show();
-          id = $(this).parents("tr").children().first().text();
-          console.log(id);
-        });
+    var clickText = $("a").eq(i).attr("class");
+    switch (clickText) {
+      case "delNews":
+        $("a")
+          .eq(i)
+          .on("click", function () {
+            $("#deleteNewscontainer").show();
+            // id = $(this).parents("tr").attr("data-id");
+            // type = console.log(id);
+          });
+        break;
+      case "newsUpdate":
+        $("a")
+          .eq(i)
+          .on("click", function () {
+            $("#modifyNewscontainer").show();
+            // id = $(this).parents("tr").attr("data-id");
+            // type = console.log(id);
+          });
+        break;
     }
   }
 
-  for (let i = 0; i < $("a").length; i++) {
-    if ($("a").eq(i).html() == "修改") {
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#modifyNewscontainer").show();
-          $("#newsId").val($(this).parents("tr").children().first().text());
-          $("#newTitle").val($(this).parents("tr").children().eq(1).html());
-          $("#modify-news-content").val(
-            $(this).parents("tr").children().eq(2).html()
-          );
-          $("#uploadTime").val($(this).parents("tr").children().eq(3).text());
-          $("#uploader").val($(this).parents("tr").children().eq(4).text());
-          id = $(this).parents("tr").children().first().text();
-        });
-    }
-  }
+  // for (let i = 0; i < $("a").length; i++) {
+  //   if ($("a").eq(i).html() == "删除") {
+  //     $("a")
+  //       .eq(i)
+  //       .on("click", function () {
+  //         $("#deleteNewscontainer").show();
+  //         id = $(this).parents("tr").children().first().text();
+  //         console.log(id);
+  //       });
+  //   }
+  // }
+
+  // for (let i = 0; i < $("a").length; i++) {
+  //   if ($("a").eq(i).html() == "修改") {
+  //     $("a")
+  //       .eq(i)
+  //       .on("click", function () {
+  //         $("#modifyNewscontainer").show();
+  //         $("#newsId").val($(this).parents("tr").children().first().text());
+  //         $("#newTitle").val($(this).parents("tr").children().eq(1).html());
+  //         $("#modify-news-content").val(
+  //           $(this).parents("tr").children().eq(2).html()
+  //         );
+  //         $("#uploadTime").val($(this).parents("tr").children().eq(3).text());
+  //         $("#uploader").val($(this).parents("tr").children().eq(4).text());
+  //         id = $(this).parents("tr").children().first().text();
+  //       });
+  //   }
+  // }
 }
 
 //创建页码
-function createPage() {
+function createNewsPage() {
   n = Math.ceil(arr.length / count);
   $("#page-switch a").remove();
   for (var i = 1; i <= n; i++) {

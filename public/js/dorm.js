@@ -1,29 +1,26 @@
 // //判断是否是学生，显示对应的页面
-// var json = localStorage.getItem("data");
-// var jsonObj = JSON.parse(json);
+var json = localStorage.getItem("data");
+var jsonObj = JSON.parse(json);
 // if (jsonObj.type == undefined) {
 //   $("#nav-left ul").children().eq(1).hide();
 //   $("#nav-left ul").children().eq(3).hide();
 //   $("#nav-left ul").children().eq(4).hide();
 // }
 
-// //页眉导航栏显示用户名
-// if (jsonObj.name) {
-//   $(".userNamePanel").html(jsonObj.name);
-//   console.log(jsonObj.name);
-// } else {
-//   $(".userNamePanel").html(jsonObj.stuName);
-//   console.log(jsonObj.stuName);
-// }
+//页眉导航栏显示用户名
+if (jsonObj.name) {
+  $(".userNamePanel").html(jsonObj.name);
+  console.log(jsonObj.name);
+} else {
+  $(".userNamePanel").html(jsonObj.stuName);
+  console.log(jsonObj.stuName);
+}
 
 //用户点击退出时，强制登入页面并清空用户数据
 
 $(".exit a").on("click", function () {
   //导向登入页面
-  $(location).attr(
-    "href",
-    "/DormitoryManagementSystemProject/pages/login.html"
-  );
+  $(location).attr("href", "index.html");
 
   //清空缓存
   localStorage.clear();
@@ -53,58 +50,6 @@ for (let i = 0; i < $(".cancel").length; i++) {
     });
 }
 
-for (let i = 0; i < $("a").length; i++) {
-  var clickText = $("a").eq(i).attr("class");
-  switch (clickText) {
-    case "delDorm":
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#delete-container").show();
-          // id = $(this).parents("tr").attr("data-id");
-          // type = console.log(id);
-        });
-      break;
-    case "dormUpdate":
-      $("a")
-        .eq(i)
-        .on("click", function () {
-          $("#modify-container").show();
-          // id = $(this).parents("tr").attr("data-id");
-          // type = console.log(id);
-        });
-      break;
-  }
-}
-
-//改为正常，发起催款
-for (let i = 0; i < $("a").length; i++) {
-  if ($("a").eq(i).html() == "改为正常") {
-    $("a")
-      .eq(i)
-      .on("click", function () {
-        $("#getFee-container").show();
-        id = $(this).parents("tr").attr("data-id");
-        type = $(this).parents("tr").children().eq(4).text();
-        console.log(id);
-        console.log(type);
-      });
-  }
-}
-for (let i = 0; i < $("a").length; i++) {
-  if ($("a").eq(i).html() == "发起催款") {
-    $("a")
-      .eq(i)
-      .on("click", function () {
-        $("#getFee-container").show();
-        id = $(this).parents("tr").attr("data-id");
-        type = $(this).parents("tr").children().eq(4).text();
-        console.log(id);
-        console.log(type);
-      });
-  }
-}
-
 //获取宿舍页面
 var arr = []; //存所有的数据;
 var count = 10; //一页多少条数据
@@ -113,30 +58,32 @@ var id;
 var n;
 var type;
 
-function getUser() {
+function getDorm() {
   $.ajax({
-    url: "/api/dorm/getdorm",
+    url: "/dorm/getdorms",
     //   data: {},
     //   type: "",
     success: function (res) {
-      console.log(res);
+      console.log("宿舍信息", res.data);
       if (res.data.length) {
         arr = res.data;
+        console.log("宿舍arr", arr);
         console.log("jsonObj", jsonObj);
-        render();
-        createPage();
+
+        dormRender();
+        createDormPage();
       }
     },
   });
 }
 
-getUser();
+getDorm();
 
 //主页所有信息渲染
-function render() {
-  $("tbody").html("");
+function dormRender() {
+  $("#dormTbody").html("");
   $.each(arr.slice((page - 1) * count, page * count), function (i, v) {
-    $("tbody").append(
+    $("#dormTbody").append(
       "            <tr data-id=" +
         v.id +
         '>\
@@ -147,18 +94,18 @@ function render() {
         v.dormName +
         "</td>\
               <td>" +
-        v.num +
+        v.peopleNum +
         "</td>\
               <td>" +
         v.balance +
         "</td>\
               <td>" +
-        (v.type == 1 ? "正常" : "催缴中") +
+        (v.dormType == 1 ? "正常" : "催缴中") +
         '</td>\
               <td>\
-                <a href="#">删除</a><a href="#">修改</a\
+                <a class="delDorm" href="#">删除</a><a href="#" class="dormUpdate">修改</a\
                 ><a href="#">' +
-        (v.type == 1 ? "发起催款" : "改为正常") +
+        (v.dormType == 1 ? "发起催款" : "改为正常") +
         "</a>\
               </td>\
             </tr>\
@@ -166,68 +113,63 @@ function render() {
     );
   });
 
-  // for (let i = 0; i < $("a").length; i++) {
-  //   if ($("a").eq(i).html() == "删除") {
-  //     $("a")
-  //       .eq(i)
-  //       .on("click", function () {
-  //         $("#delete-container").show();
-  //         id = $(this).parents("tr").attr("data-id");
-  //         type = console.log(id);
-  //       });
-  //   }
-  // }
+  //增删改查点击事件
 
-  // for (let i = 0; i < $("a").length; i++) {
-  //   if ($("a").eq(i).html() == "修改") {
-  //     $("a")
-  //       .eq(i)
-  //       .on("click", function () {
-  //         $("#modify-container").show();
-  //         $("#modify-dormId").val(
-  //           $(this).parents("tr").children().first().text()
-  //         );
-  //         $("#modify-dormName").val(
-  //           $(this).parents("tr").children().eq(1).text()
-  //         );
-  //         $("#numOfPeople").val($(this).parents("tr").children().eq(2).text());
-  //         $("#chargefee").val($(this).parents("tr").children().eq(3).text());
-  //         id = $(this).parents("tr").attr("data-id");
-  //         type = $(this).parents("tr").children().eq(4).text();
-  //       });
-  //   }
-  // }
+  for (let i = 0; i < $("a").length; i++) {
+    var clickText = $("a").eq(i).attr("class");
+    switch (clickText) {
+      case "delDorm":
+        $("a")
+          .eq(i)
+          .on("click", function () {
+            $("#delete-container").show();
+            // id = $(this).parents("tr").attr("data-id");
+            // type = console.log(id);
+          });
+        break;
+      case "dormUpdate":
+        $("a")
+          .eq(i)
+          .on("click", function () {
+            $("#modify-container").show();
+            // id = $(this).parents("tr").attr("data-id");
+            // type = console.log(id);
+          });
+        break;
+    }
+  }
 
-  // for (let i = 0; i < $("a").length; i++) {
-  //   if ($("a").eq(i).html() == "改为正常") {
-  //     $("a")
-  //       .eq(i)
-  //       .on("click", function () {
-  //         $("#getFee-container").show();
-  //         id = $(this).parents("tr").attr("data-id");
-  //         type = $(this).parents("tr").children().eq(4).text();
-  //         console.log(id);
-  //         console.log(type);
-  //       });
-  //   }
-  // }
-  // for (let i = 0; i < $("a").length; i++) {
-  //   if ($("a").eq(i).html() == "发起催款") {
-  //     $("a")
-  //       .eq(i)
-  //       .on("click", function () {
-  //         $("#getFee-container").show();
-  //         id = $(this).parents("tr").attr("data-id");
-  //         type = $(this).parents("tr").children().eq(4).text();
-  //         console.log(id);
-  //         console.log(type);
-  //       });
-  //   }
-  // }
+  //改为正常，发起催款
+  for (let i = 0; i < $("a").length; i++) {
+    if ($("a").eq(i).html() == "改为正常") {
+      $("a")
+        .eq(i)
+        .on("click", function () {
+          $("#getFee-container").show();
+          id = $(this).parents("tr").attr("data-id");
+          type = $(this).parents("tr").children().eq(4).text();
+          console.log(id);
+          console.log(type);
+        });
+    }
+  }
+  for (let i = 0; i < $("a").length; i++) {
+    if ($("a").eq(i).html() == "发起催款") {
+      $("a")
+        .eq(i)
+        .on("click", function () {
+          $("#getFee-container").show();
+          id = $(this).parents("tr").attr("data-id");
+          type = $(this).parents("tr").children().eq(4).text();
+          console.log(id);
+          console.log(type);
+        });
+    }
+  }
 }
 
 //创建页码
-function createPage() {
+function createDormPage() {
   n = Math.ceil(arr.length / count);
   $("#page-switch a").remove();
   for (var i = 1; i <= n; i++) {
@@ -238,7 +180,7 @@ function createPage() {
 $("#page-switch").on("click", "a", function () {
   // $("#page-switch a").remove();
   page = $(this).text();
-  render();
+  dormRender();
 });
 
 // 点击向前
@@ -247,7 +189,7 @@ $(".before").on("click", function () {
   if (page > 1) {
     page--;
   }
-  render();
+  dormRender();
 });
 
 //点击向后
@@ -256,22 +198,22 @@ $(".next").on("click", function () {
   if (page < n) {
     page++;
   }
-  render();
+  dormRender();
 });
 
 //添加宿舍
 $(".add-dorm-confirm").on("click", function () {
   //非空判断
-  for (var i = 0; i < $("input").length; i++) {
-    if (
-      $("input").eq(i).val() == "" ||
-      $("#add-admin-type").text("请选择管理员类型")
-    ) {
-      $(".warning").show();
-    }
-  }
+  // for (var i = 0; i < $("input").length; i++) {
+  //   if (
+  //     $("input").eq(i).val() == "" ||
+  //     $("#add-admin-type").text("请选择管理员类型")
+  //   ) {
+  //     $(".warning").show();
+  //   }
+  // }
   $.ajax({
-    url: "/api/dorm/adddorm",
+    url: "/dorm/adddorm",
     data: {
       balance: $("#bill").val(),
       dormId: $("#dormId").val(),
@@ -282,12 +224,12 @@ $(".add-dorm-confirm").on("click", function () {
       console.log(res);
       if (res.code == 200) {
         //弹框隐藏
-        $("#add-container").hide();
-        getUser();
-        $("#bill").val("");
-        $("#dormId").val("");
-        $("#dormName").val("");
-        console.log("添加成功");
+        // $("#add-container").hide();
+        // getUser();
+        // $("#bill").val("");
+        // $("#dormId").val("");
+        // $("#dormName").val("");
+        // console.log("添加成功");
       }
     },
   });
@@ -343,16 +285,6 @@ $(".push-get-fee").on("click", function () {
     },
   });
 });
-
-//面包屑导航事件
-
-//点击获取数据，存在localstorage的nav 数组中
-
-// $(".nav-link").each(function (i) {
-//   $(this).on("click", function () {
-//     localStorage.setItem($(this).attr("data-name"), $(this).html());
-//   });
-// });
 
 //数据去重
 
