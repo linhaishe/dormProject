@@ -123,8 +123,9 @@ function dormRender() {
           .eq(i)
           .on("click", function () {
             $("#delete-container").show();
-            // id = $(this).parents("tr").attr("data-id");
-            // type = console.log(id);
+            id = $(this).parents("tr").attr("data-id");
+            // type =
+            console.log(id);
           });
         break;
       case "dormUpdate":
@@ -132,7 +133,17 @@ function dormRender() {
           .eq(i)
           .on("click", function () {
             $("#modify-container").show();
-            // id = $(this).parents("tr").attr("data-id");
+            id = $(this).parents("tr").attr("data-id");
+            $("#modify-dormId").val(
+              $(this).parents("tr").children().eq(0).html()
+            );
+            $("#modify-dormName").val(
+              $(this).parents("tr").children().eq(1).html()
+            );
+            $("#numOfPeople").val(
+              $(this).parents("tr").children().eq(2).html()
+            );
+            $("#chargefee").val($(this).parents("tr").children().eq(3).html());
             // type = console.log(id);
           });
         break;
@@ -222,15 +233,14 @@ $(".add-dorm-confirm").on("click", function () {
     type: "post",
     success: function (res) {
       console.log(res);
-      if (res.code == 200) {
-        //弹框隐藏
-        // $("#add-container").hide();
-        // getUser();
-        // $("#bill").val("");
-        // $("#dormId").val("");
-        // $("#dormName").val("");
-        // console.log("添加成功");
-      }
+
+      //弹框隐藏
+      $("#add-container").hide();
+      getDorm();
+      $("#bill").val("");
+      $("#dormId").val("");
+      $("#dormName").val("");
+      console.log("添加成功");
     },
   });
 });
@@ -238,13 +248,13 @@ $(".add-dorm-confirm").on("click", function () {
 //删除宿舍
 $(".delete-dorm-confirm").on("click", function () {
   $.ajax({
-    url: "/api/dorm/deldorm",
+    url: "/dorm/deldorm",
     //这里的dormId是主键id,不是数组里的dormId
     data: { dormId: id },
     type: "post",
     success: function (res) {
       $("#delete-container").hide();
-      getUser();
+      getDorm();
       console.log(res);
     },
   });
@@ -253,7 +263,7 @@ $(".delete-dorm-confirm").on("click", function () {
 //修改宿舍
 $(".modify-dorm-confirm").on("click", function () {
   $.ajax({
-    url: "/api/dorm/updatedorm",
+    url: "/dorm/updatedorm",
     data: {
       balance: $("#chargefee").val(),
       dormId: $("#modify-dormId").val(),
@@ -263,24 +273,22 @@ $(".modify-dorm-confirm").on("click", function () {
     },
     type: "post",
     success: function (res) {
-      if (res.code == 200) {
-        $("#modify-container").hide();
-        console.log("修改成功");
-        getUser();
-      }
+      $("#modify-container").hide();
+      console.log("修改成功");
+      getDorm();
     },
   });
 });
 
-//修改为正常状态
+//修改状态
 $(".push-get-fee").on("click", function () {
   $.ajax({
-    url: "/api/dorm/deptdorm",
+    url: "/dorm/deptdorm",
     data: { id: id, type: type == "正常" ? 2 : 1 },
     type: "post",
     success: function (res) {
       $("#getFee-container").hide();
-      getUser();
+      getDorm();
       console.log("修改状态成功");
     },
   });

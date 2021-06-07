@@ -72,6 +72,10 @@ CREATE TABLE payRecords(
     CONSTRAINT FOREIGN KEY(stuId) REFERENCES students(id)
 );
 
+-- 获得宿舍人数
+select count(1) from students where stuDormId = (select id from dorms where id =1);
+
+
 
 
 

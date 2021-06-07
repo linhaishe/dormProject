@@ -8,13 +8,13 @@ var jsonObj = JSON.parse(json);
 // }
 
 //页眉导航栏显示用户名
-if (jsonObj.name) {
-  $(".userNamePanel").html(jsonObj.name);
-  console.log(jsonObj.name);
-} else {
-  $(".userNamePanel").html(jsonObj.stuName);
-  console.log(jsonObj.stuName);
-}
+// if (jsonObj.name) {
+//   $(".userNamePanel").html(jsonObj.name);
+//   console.log(jsonObj.name);
+// } else {
+//   $(".userNamePanel").html(jsonObj.stuName);
+//   console.log(jsonObj.stuName);
+// }
 
 //用户点击退出时，强制登入页面并清空用户数据
 
@@ -165,6 +165,7 @@ function adminRender() {
       );
     });
   }
+
   for (let i = 0; i < $("a").length; i++) {
     var clickText = $("a").eq(i).attr("class");
     switch (clickText) {
@@ -197,19 +198,23 @@ var page = 1; //当前的页数
 var id;
 var n;
 
-$.ajax({
-  url: "/admins/getadmin",
-  //   data: {},
-  //   type: "",
-  success: function (res) {
-    console.log(res.data);
-    if (res.data.length) {
-      arr = res.data;
-      readminRendernder();
-      createAdminPage();
-    }
-  },
-});
+function getAdmin() {
+  $.ajax({
+    url: "/admins/getadmin",
+    //   data: {},
+    //   type: "",
+    success: function (res) {
+      console.log(res.data);
+      if (res.data.length) {
+        arr = res.data;
+        adminRender();
+        createAdminPage();
+      }
+    },
+  });
+}
+
+getAdmin();
 
 //创建管理员界面
 
@@ -240,6 +245,118 @@ function createAdminListPage() {
     });
   }
 }
+
+//创建页码
+function createPage() {
+  //arr
+  // 1  1
+  //5   1
+  //6   2
+  //10  2
+  //每页5个 页面数字获取 = 数组长度 / 每页显示数量 然后向上取整
+  //n   arr.length/count  向上取整
+  n = Math.ceil(arr.length / count);
+  $("#page-switch a").remove();
+  for (var i = 1; i <= n; i++) {
+    $(".next").before($('<a href="javascript:;">' + i + "</a>"));
+  }
+}
+
+//子元素有点击事件的时候，将点击事件加给父元素
+
+$("#page-switch").on("click", "a", function () {
+  page = $(this).text();
+  getAdmin();
+});
+
+// 点击向前
+$(".before").on("click", function () {
+  console.log("page", page);
+  if (page > 1) {
+    page--;
+  }
+  getAdmin();
+});
+
+//点击向后
+$(".next").on("click", function () {
+  console.log("n", n);
+  if (page < n) {
+    page++;
+  }
+  getAdmin();
+});
+
+//用户名为字符串，密码，类型，用户账号均为数字
+//添加管理员
+$(".add-admin-confirm").on("click", function () {
+  //非空判断
+  // for (var i = 0; i < $("input").length; i++) {
+  //   if (
+  //     $("input").eq(i).val() == "" ||
+  //     $("#add-admin-type").text("请选择管理员类型")
+  //   ) {
+  //     $(".warning").show();
+  //   }
+  // }
+
+  $.ajax({
+    url: "/admin/addadmin",
+    data: {
+      name: $("#add-admin-name").val(),
+      password: $("#add-psw").val(),
+      type: $(".dropdown .btn").html() == "普通管理员" ? 1 : 2,
+      userId: $("#add-admin-account").val(),
+    },
+    type: "post",
+    success: function (res) {
+      console.log(res);
+      if (res.error == 0) {
+        //弹框隐藏
+        $("#addAdminContainer").hide();
+        $(".dropdown .btn").html("请选择管理员类型");
+        getAdmin();
+      }
+    },
+  });
+});
+
+//删除管理员
+$(".delete-admin-confirm").on("click", function () {
+  $.ajax({
+    url: "/admin/deladmin",
+    data: { id: id },
+    type: "post",
+    success: function (res) {
+      if (res.error == 0) {
+        $("#deleteAdminContainer").hide();
+        getAdmin();
+      }
+    },
+  });
+});
+
+//修改管理员
+$(".modify-admin-confirm").on("click", function () {
+  $.ajax({
+    url: "/admin/updateadmin",
+    data: {
+      id: $("#modify-admin-id").val(),
+      name: $("#modify-admin-name").val(),
+      password: $("#modify-admin-pwd").val(),
+      type: $("#modify-admin-type").html() == "普通管理员" ? 1 : 2,
+    },
+    type: "post",
+    success: function (res) {
+      if (res.error == 0) {
+        $("#modifyAdminContainer").hide();
+        console.log("修改成功");
+        getAdmin();
+      }
+    },
+  });
+});
+
 // for (let i = 0; i < $("a").length; i++) {
 //   if ($("a").eq(i).html() == "删除") {
 //     $("a")
@@ -278,113 +395,3 @@ function createAdminListPage() {
 //     }
 //   }
 // }
-
-//创建页码
-function createPage() {
-  //arr
-  // 1  1
-  //5   1
-  //6   2
-  //10  2
-  //每页5个 页面数字获取 = 数组长度 / 每页显示数量 然后向上取整
-  //n   arr.length/count  向上取整
-  n = Math.ceil(arr.length / count);
-  $("#page-switch a").remove();
-  for (var i = 1; i <= n; i++) {
-    $(".next").before($('<a href="javascript:;">' + i + "</a>"));
-  }
-}
-
-//子元素有点击事件的时候，将点击事件加给父元素
-
-$("#page-switch").on("click", "a", function () {
-  page = $(this).text();
-  render();
-});
-
-// 点击向前
-$(".before").on("click", function () {
-  console.log("page", page);
-  if (page > 1) {
-    page--;
-  }
-  render();
-});
-
-//点击向后
-$(".next").on("click", function () {
-  console.log("n", n);
-  if (page < n) {
-    page++;
-  }
-  render();
-});
-
-//用户名为字符串，密码，类型，用户账号均为数字
-//添加管理员
-$(".add-admin-confirm").on("click", function () {
-  //非空判断
-  for (var i = 0; i < $("input").length; i++) {
-    if (
-      $("input").eq(i).val() == "" ||
-      $("#add-admin-type").text("请选择管理员类型")
-    ) {
-      $(".warning").show();
-    }
-  }
-
-  $.ajax({
-    url: "/admin/addadmin",
-    data: {
-      name: $("#add-admin-name").val(),
-      password: $("#add-psw").val(),
-      type: $(".dropdown .btn").html() == "普通管理员" ? 1 : 2,
-      userId: $("#add-admin-account").val(),
-    },
-    type: "post",
-    success: function (res) {
-      console.log(res);
-      if (res.code == 200) {
-        //弹框隐藏
-        $("#addAdminContainer").hide();
-        $(".dropdown .btn").html("请选择管理员类型");
-        getUser();
-      }
-    },
-  });
-});
-
-//删除管理员
-$(".delete-admin-confirm").on("click", function () {
-  $.ajax({
-    url: "/api/admin/deladmin",
-    data: { id: id },
-    type: "post",
-    success: function (res) {
-      $("#deleteAdminContainer").hide();
-      getUser();
-      console.log(res);
-    },
-  });
-});
-
-//修改管理员
-$(".modify-admin-confirm").on("click", function () {
-  $.ajax({
-    url: "/api/admin/updateadmin",
-    data: {
-      id: $("#modify-admin-id").val(),
-      name: $("#modify-admin-name").val(),
-      password: $("#modify-admin-pwd").val(),
-      type: $("#modify-admin-type").html() == "普通管理员" ? 1 : 2,
-    },
-    type: "post",
-    success: function (res) {
-      if (res.code == 200) {
-        $("#modifyAdminContainer").hide();
-        console.log("修改成功");
-        getUser();
-      }
-    },
-  });
-});

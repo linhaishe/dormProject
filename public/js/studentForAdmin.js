@@ -34,8 +34,6 @@ $(".exit a").on("click", function () {
   localStorage.clear();
 });
 
-//学生管理增删改查点击事件
-
 //添加学生点击事件
 
 $(".add-student").on("click", function () {
@@ -94,7 +92,7 @@ function stuRender() {
   $.each(arr.slice((page - 1) * count, page * count), function (i, v) {
     $("#mainPageTbody").append(
       "            <tr data-pass=" +
-        v.stuPwd +
+        v.stupwd +
         " data-id=" +
         v.id +
         '>\
@@ -117,13 +115,14 @@ function stuRender() {
         (v.dormType == 1 ? "正常" : "催费") +
         '</td>\
               <td>\
-                <a href="#">删除</a><a href="#">修改</a\
-                ><a href="#">查看缴费记录</a>\
+                <a class="delStu" href="#">删除</a><a class="stuUpdate" href="#">修改</a\
+                ><a class="stuCheckFee" href="#">查看缴费记录</a>\
               </td>\
             </tr>\
 '
     );
   });
+  //学生管理增删改查点击事件
 
   for (let i = 0; i < $("a").length; i++) {
     var clickText = $("a").eq(i).attr("class");
@@ -133,8 +132,8 @@ function stuRender() {
           .eq(i)
           .on("click", function () {
             $("#deleteStuContainer").show();
-            // id = $(this).parents("tr").attr("data-id");
-            // type = console.log(id);
+            id = $(this).parents("tr").attr("data-id");
+            console.log("学生id", id);
           });
         break;
       case "stuUpdate":
@@ -142,8 +141,19 @@ function stuRender() {
           .eq(i)
           .on("click", function () {
             $("#modifyStuContainer").show();
-            // id = $(this).parents("tr").attr("data-id");
-            // type = console.log(id);
+            id = $(this).parents("tr").attr("data-id");
+            $("#modify-stuId").val(
+              $(this).parents("tr").children().first().text()
+            );
+            $("#modify-stuName").val(
+              $(this).parents("tr").children().eq(1).text()
+            );
+            $("#modify-stuAccount").val(
+              $(this).parents("tr").children().eq(2).text()
+            );
+            $("#modifyStuPwd").val($(this).parents("tr").attr("data-pass"));
+            id = $(this).parents("tr").attr("data-id");
+            $(".dropdown button").text("请选择所属宿舍");
           });
         break;
       case "stuCheckFee":
@@ -151,8 +161,7 @@ function stuRender() {
           .eq(i)
           .on("click", function () {
             $("#charge-record-container").show();
-            // id = $(this).parents("tr").attr("data-id");
-            // type = console.log(id);
+            id = $(this).parents("tr").attr("data-id");
           });
         break;
     }
@@ -215,7 +224,7 @@ function createStuPage() {
 
 $("#page-switch").on("click", "a", function () {
   page = $(this).text();
-  render();
+  getStudents();
 });
 
 // 点击向前
@@ -224,7 +233,7 @@ $(".before").on("click", function () {
   if (page > 1) {
     page--;
   }
-  render();
+  getStudents();
 });
 
 //点击向后
@@ -233,23 +242,27 @@ $(".next").on("click", function () {
   if (page < n) {
     page++;
   }
-  render();
+  getStudents();
 });
 
 //添加学生
 
 $(".add-stu-confirm").on("click", function () {
   //非空判断
-  for (var i = 0; i < $("input").length; i++) {
-    if (
-      $("input").eq(i).val() == "" ||
-      $("#add-admin-type").text("请选择管理员类型")
-    ) {
-      $(".warning").show();
-    }
-  }
+  // for (var i = 0; i < $("input").length; i++) {
+  //   if (
+  //     $("input").eq(i).val() == "" ||
+  //     $("#add-admin-type").text("请选择管理员类型")
+  //   ) {
+  //     $(".warning").show();
+  //   }
+  // }
+
+  console.log("stuUserId", $("#stuAccount").val());
+  console.log("studormid", $(".add-dorm-dropdown-btn").attr("data-dormid"));
+
   $.ajax({
-    url: "/api/student/addstudent",
+    url: "/students/addstudent",
     data: {
       stuDormId: $(".add-dorm-dropdown-btn").attr("data-dormid"),
       stuId: $("#stuId").val(),
@@ -260,11 +273,9 @@ $(".add-stu-confirm").on("click", function () {
     type: "post",
     success: function (res) {
       console.log(res);
-      if (res.code == 200) {
-        //弹框隐藏
-        $("#addStuContainer").hide();
-        getUser();
-      }
+      //弹框隐藏
+      $("#addStuContainer").hide();
+      getStudents();
     },
   });
 });
@@ -273,12 +284,12 @@ $(".add-stu-confirm").on("click", function () {
 
 $(".delete-stu-confirm").on("click", function () {
   $.ajax({
-    url: "/api/student/delstudent",
+    url: "/students/delstudent",
     data: { id: id },
     type: "post",
     success: function (res) {
       $("#deleteStuContainer").hide();
-      getUser();
+      getStudents();
       console.log(res);
     },
   });
@@ -288,7 +299,7 @@ $(".delete-stu-confirm").on("click", function () {
 
 $(".modify-stu-confirm").on("click", function () {
   $.ajax({
-    url: "/api/student/updatestudent",
+    url: "/students/updatestudent",
     data: {
       id: id,
       stuDormId: $(".modify-dorm-dropdown-btn").attr("data-dormid"),
@@ -297,10 +308,11 @@ $(".modify-stu-confirm").on("click", function () {
     },
     type: "post",
     success: function (res) {
-      if (res.code == 200) {
+      console.log("res", res);
+      if (res.error == 0) {
         $("#modifyStuContainer").hide();
         console.log("修改成功");
-        getUser();
+        getStudents();
       }
     },
   });
@@ -315,9 +327,10 @@ $.ajax({
   url: "/dorm/getdorms",
   type: "get",
   success: function (res) {
-    if (res.code == 200) {
+    if (res.data.length) {
       dormArr = res.data;
-      console.log(dormArr);
+      console.log("dormArr", dormArr);
+
       //将id和dormid存储在数组中
       $.each(dormArr, function (i, v) {
         var obj = {};
@@ -325,15 +338,21 @@ $.ajax({
         obj.dormId = v.dormId;
         // obj[dormId] = v.dormId;
         dormIdName.push(obj);
-        // console.log(obj);
       });
+      console.log("dormIdName", dormIdName);
+
       selectRender();
       //dropdown click func
       $(function () {
-        $(".main-dropdown-menu li a").click(function () {
+        $(".add-select-dorm li a").click(function () {
           var dormUniqueId = $(this).parent().attr("data-dormUniqueId");
-          $(".dropdown .btn").text($(this).text());
+          $("#add-select-dorm").text($(this).text());
           $(".add-dorm-dropdown-btn").attr("data-dormid", dormUniqueId);
+          console.log(dormUniqueId);
+        });
+        $(".modify-select-dorm li a").click(function () {
+          var dormUniqueId = $(this).parent().attr("data-dormUniqueId");
+          $("#modify-select-dorm").text($(this).text());
           $(".modify-dorm-dropdown-btn").attr("data-dormid", dormUniqueId);
           console.log(dormUniqueId);
         });
@@ -347,11 +366,22 @@ $.ajax({
 //宿舍数据中 id:主键id，学生添加需要根据宿舍的主键id进行添加
 //宿舍数据中 dormId,宿舍名称/编号，显示在下拉选项中
 //添加学生数据中 studormId 是宿舍数据中的主键id
+//下拉框宿舍渲染
 
 function selectRender() {
-  $(".main-dropdown-menu").html();
+  $(".add-select-dorm").html();
   $.each(dormIdName, function (i, v) {
-    $(".main-dropdown-menu").append(
+    $(".add-select-dorm").append(
+      "<li data-dormUniqueId=" +
+        v.id +
+        '><a class="dropdown-item" href="#">' +
+        v.dormId +
+        "</a></li>"
+    );
+  });
+  $(".modify-select-dorm").html();
+  $.each(dormIdName, function (i, v) {
+    $(".modify-select-dorm").append(
       "<li data-dormUniqueId=" +
         v.id +
         '><a class="dropdown-item" href="#">' +

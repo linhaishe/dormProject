@@ -1,7 +1,7 @@
 // //判断是否是学生，显示对应的页面
 
-// var json = localStorage.getItem("data");
-// var jsonObj = JSON.parse(json);
+var json = localStorage.getItem("data");
+var jsonObj = JSON.parse(json);
 // if (jsonObj.type == undefined) {
 //   $("#nav-left ul").children().eq(1).hide();
 //   $("#nav-left ul").children().eq(3).hide();
@@ -102,7 +102,7 @@ function newsRender() {
               <td>" +
         v.userName +
         '</td>\
-              <td><a href="#">删除</a><a href="#">修改</a></td>\
+              <td><a class="delNews" href="#">删除</a><a class="newsUpdate" href="#">修改</a></td>\
             </tr>\
 '
     );
@@ -115,7 +115,8 @@ function newsRender() {
           .eq(i)
           .on("click", function () {
             $("#deleteNewscontainer").show();
-            // id = $(this).parents("tr").attr("data-id");
+            id = $(this).parents("tr").children().eq(0).text();
+            console.log(id);
             // type = console.log(id);
           });
         break;
@@ -124,42 +125,19 @@ function newsRender() {
           .eq(i)
           .on("click", function () {
             $("#modifyNewscontainer").show();
-            // id = $(this).parents("tr").attr("data-id");
-            // type = console.log(id);
+            id = $(this).parents("tr").children().eq(0).text();
+            $("#modifyNewscontainer").show();
+            $("#newsId").val($(this).parents("tr").children().first().text());
+            $("#newTitle").val($(this).parents("tr").children().eq(1).html());
+            $("#modify-news-content").val(
+              $(this).parents("tr").children().eq(2).html()
+            );
+            $("#uploadTime").val($(this).parents("tr").children().eq(3).text());
+            $("#uploader").val($(this).parents("tr").children().eq(4).text());
           });
         break;
     }
   }
-
-  // for (let i = 0; i < $("a").length; i++) {
-  //   if ($("a").eq(i).html() == "删除") {
-  //     $("a")
-  //       .eq(i)
-  //       .on("click", function () {
-  //         $("#deleteNewscontainer").show();
-  //         id = $(this).parents("tr").children().first().text();
-  //         console.log(id);
-  //       });
-  //   }
-  // }
-
-  // for (let i = 0; i < $("a").length; i++) {
-  //   if ($("a").eq(i).html() == "修改") {
-  //     $("a")
-  //       .eq(i)
-  //       .on("click", function () {
-  //         $("#modifyNewscontainer").show();
-  //         $("#newsId").val($(this).parents("tr").children().first().text());
-  //         $("#newTitle").val($(this).parents("tr").children().eq(1).html());
-  //         $("#modify-news-content").val(
-  //           $(this).parents("tr").children().eq(2).html()
-  //         );
-  //         $("#uploadTime").val($(this).parents("tr").children().eq(3).text());
-  //         $("#uploader").val($(this).parents("tr").children().eq(4).text());
-  //         id = $(this).parents("tr").children().first().text();
-  //       });
-  //   }
-  // }
 }
 
 //创建页码
@@ -199,26 +177,27 @@ $(".warning").hide();
 //添加公告
 $(".add-bulletin-confirm").on("click", function () {
   //非空判断
-  for (var i = 0; i < $("input").length; i++) {
-    if (
-      $("input").eq(i).val() == "" ||
-      $("#add-admin-type").text("请选择管理员类型")
-    ) {
-      $(".warning").show();
-    }
-  }
+  // for (var i = 0; i < $("input").length; i++) {
+  //   if (
+  //     $("input").eq(i).val() == "" ||
+  //     $("#add-admin-type").text("请选择管理员类型")
+  //   ) {
+  //     $(".warning").show();
+  //   }
+  // }
   $.ajax({
-    url: "/api/notice/addnotice",
+    url: "/news/addnews",
     data: {
       content: $("#news-content").val(),
       title: $("#newsTitle").val(),
-      userId: jsonObj.id,
+      adminId: jsonObj.adminId,
+      adminName: jsonObj.adminName,
     },
     type: "post",
     success: function (res) {
-      if (res.code == 200) {
+      if (res.error == 0) {
         $("#addBulletinContainer").hide();
-        getUser();
+        getNews();
         console.log(res);
       }
     },
@@ -228,13 +207,13 @@ $(".add-bulletin-confirm").on("click", function () {
 //删除公告
 $(".delete-bulletin-confirm").on("click", function () {
   $.ajax({
-    url: "/api/notice/delnotice",
+    url: "/news/delNews",
     data: { id: id },
     type: "post",
     success: function (res) {
-      if (res.code == 200) {
+      if (res.error == 0) {
         $("#deleteNewscontainer").hide();
-        getUser();
+        getNews();
         console.log(res);
       }
     },
@@ -244,7 +223,7 @@ $(".delete-bulletin-confirm").on("click", function () {
 //修改公告
 $(".modify-bulletin-confirm").on("click", function () {
   $.ajax({
-    url: "/api/notice/updatenotice",
+    url: "/news/updateNews",
     data: {
       content: $("#modify-news-content").val(),
       title: $("#newTitle").val(),
@@ -252,9 +231,9 @@ $(".modify-bulletin-confirm").on("click", function () {
     },
     type: "post",
     success: function (res) {
-      if (res.code == 200) {
+      if (res.error == 0) {
         $("#modifyNewscontainer").hide();
-        getUser();
+        getNews();
         console.log(res);
       }
     },
@@ -270,23 +249,6 @@ $(".modify-bulletin-confirm").on("click", function () {
 //     localStorage.setItem($(this).attr("data-name"), $(this).html());
 //   });
 // });
-
-//数据去重
-
-function unique(arr) {
-  return Array.from(new Set(arr));
-}
-
-var navArr = [];
-var uniqueArr = unique(navArr);
-
-for (var i = 0; i < uniqueArr.length; i++) {}
-
-var homepage = localStorage.getItem("homepage");
-var dorm = localStorage.getItem("dorm");
-var student = localStorage.getItem("student");
-var bulletin = localStorage.getItem("bulletin");
-var admin = localStorage.getItem("admin");
 
 //添加样式
 // function addCss() {
@@ -418,4 +380,34 @@ var admin = localStorage.getItem("admin");
 //       window.history.go(0);
 //     }
 //   };
+// }
+
+// for (let i = 0; i < $("a").length; i++) {
+//   if ($("a").eq(i).html() == "删除") {
+//     $("a")
+//       .eq(i)
+//       .on("click", function () {
+//         $("#deleteNewscontainer").show();
+//         id = $(this).parents("tr").children().first().text();
+//         console.log(id);
+//       });
+//   }
+// }
+
+// for (let i = 0; i < $("a").length; i++) {
+//   if ($("a").eq(i).html() == "修改") {
+//     $("a")
+//       .eq(i)
+//       .on("click", function () {
+//         $("#modifyNewscontainer").show();
+//         $("#newsId").val($(this).parents("tr").children().first().text());
+//         $("#newTitle").val($(this).parents("tr").children().eq(1).html());
+//         $("#modify-news-content").val(
+//           $(this).parents("tr").children().eq(2).html()
+//         );
+//         $("#uploadTime").val($(this).parents("tr").children().eq(3).text());
+//         $("#uploader").val($(this).parents("tr").children().eq(4).text());
+//         id = $(this).parents("tr").children().first().text();
+//       });
+//   }
 // }
