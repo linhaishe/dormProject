@@ -259,7 +259,7 @@ app.post("/students/addstudent", function (req, res) {
     req.body.stuPas +
     ")";
 
-  console.log("updateSql", updateSql);
+  console.log("sql", updateSql);
   connection.query(updateSql, function (err, data) {
     if (!err) {
       if (!data.length) {
@@ -278,9 +278,9 @@ app.post("/students/delstudent", function (req, res) {
   connection.query(delSql, function (err, data) {
     if (!err) {
       if (!data.length) {
-        res.json({ error: 0, msg: "删除成功", data: data });
+        res.json({ error: 0, msg: "学生删除成功", data: data });
       } else {
-        res.json({ error: 1, msg: "删除失败" });
+        res.json({ error: 1, msg: "学生删除失败" });
       }
     }
   });
@@ -384,6 +384,7 @@ app.post("/admin/addadmin", function (req, res) {
     ");";
 
   connection.query(insertSql, function (err, data) {
+    console.log("管理员添加sql", insertSql);
     if (!err) {
       if (!data.length) {
         res.json({ error: 0, msg: "管理员添加成功", data: data });
@@ -396,13 +397,13 @@ app.post("/admin/addadmin", function (req, res) {
 
 //删除管理员
 app.post("/admin/deladmin", function (req, res) {
-  var delSql = "delete from news where id = " + req.body.id + "";
+  var delSql = "delete from admins where id = " + req.body.id + "";
   connection.query(delSql, function (err, data) {
     if (!err) {
       if (!data.length) {
-        res.json({ error: 0, msg: "公告删除成功", data: data });
+        res.json({ error: 0, msg: "管理员删除成功", data: data });
       } else {
-        res.json({ error: 1, msg: "公告删除失败" });
+        res.json({ error: 1, msg: "管理员删除失败" });
       }
     }
   });
@@ -411,19 +412,22 @@ app.post("/admin/deladmin", function (req, res) {
 //修改管理员
 app.post("/admin/updateadmin", function (req, res) {
   var updateSql =
-    'update news set title="' +
-    req.body.title +
-    '",content="' +
-    req.body.content +
-    '" where id = ' +
+    'update admins set adminName="' +
+    req.body.name +
+    '",adminPwd=' +
+    req.body.password +
+    ",adminType=" +
+    req.body.type +
+    " where id=" +
     req.body.id +
     "";
+
   connection.query(updateSql, function (err, data) {
     if (!err) {
       if (!data.length) {
-        res.json({ error: 0, msg: "公告修改成功", data: data });
+        res.json({ error: 0, msg: "管理员修改成功", data: data });
       } else {
-        res.json({ error: 1, msg: "公告修改失败" });
+        res.json({ error: 1, msg: "管理员修改失败" });
       }
     }
   });

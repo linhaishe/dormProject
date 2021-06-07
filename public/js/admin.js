@@ -84,8 +84,11 @@ for (let i = 0; i < $(".cancel").length; i++) {
 
 //dropdown click func
 $(function () {
-  $(".main-dropdown-menu li a").click(function () {
-    $(".dropdown .btn").text($(this).text());
+  $(".modify-admin-ul li a").click(function () {
+    $("#modify-admin-type").text($(this).text());
+  });
+  $(".Button-addAdmin li a").click(function () {
+    $("#add-admin-type").text($(this).text());
   });
 });
 
@@ -108,8 +111,8 @@ function getAdmin() {
 //页面第一次加载时自动调用，获取数据
 getAdmin();
 
-// var loginUserArr = [];
-// loginUserArr.push(jsonObj);
+var loginUserArr = [];
+loginUserArr.push(jsonObj);
 
 console.log("loginUserArr", loginUserArr);
 
@@ -175,7 +178,8 @@ function adminRender() {
           .on("click", function () {
             $("#deleteAdminContainer").show();
             // id = $(this).parents("tr").attr("data-id");
-            // type = console.log(id);
+            id = $(this).parents("tr").children().first().text();
+            console.log(id);
           });
         break;
       case "updateAdmin":
@@ -184,7 +188,21 @@ function adminRender() {
           .on("click", function () {
             $("#modifyAdminContainer").show();
             // id = $(this).parents("tr").attr("data-id");
-            // type = console.log(id);
+            id = $(this).parents("tr").children().first().text();
+            console.log(id);
+            $("#modify-admin-id").val(
+              $(this).parents("tr").children().first().text()
+            );
+            $("#modify-admin-name").val(
+              $(this).parents("tr").children().eq(1).text()
+            );
+            $("#modify-admin-account").val(
+              $(this).parents("tr").children().eq(2).text()
+            );
+            $("#modify-admin-pwd").val($(this).parents("tr").attr("data-pass"));
+            $("#modify-admin-type").text(
+              $(this).parents("tr").children().eq(3).text()
+            );
           });
         break;
     }
@@ -218,36 +236,36 @@ getAdmin();
 
 //创建管理员界面
 
-function createAdminListPage() {
-  $("#adminTbody").html("");
-  if (jsonObj.type == 1) {
-    $.each(jsonObj, function (i, v) {
-      $("#adminTbody").append(
-        "            <tr data-pass=" +
-          v.password +
-          '>\
-              <th scope="row">' +
-          v.id +
-          "</th>\
-              <td>" +
-          v.name +
-          "</td>\
-              <td>" +
-          v.userId +
-          "</td>\
-              <td>" +
-          (v.type == 1 ? "普通管理员" : "超级管理员") +
-          '</td>\
-              <td><a href="#" >删除</a><a href="#" >修改</a></td>\
-            </tr>\
-'
-      );
-    });
-  }
-}
+// function createAdminListPage() {
+//   $("#adminTbody").html("");
+//   if (jsonObj.type == 2) {
+//     $.each(jsonObj, function (i, v) {
+//       $("#adminTbody").append(
+//         "            <tr data-pass=" +
+//           v.password +
+//           '>\
+//               <th scope="row">' +
+//           v.id +
+//           "</th>\
+//               <td>" +
+//           v.name +
+//           "</td>\
+//               <td>" +
+//           v.userId +
+//           "</td>\
+//               <td>" +
+//           (v.type == 1 ? "普通管理员" : "超级管理员") +
+//           '</td>\
+//               <td><a href="#" >删除</a><a href="#" >修改</a></td>\
+//             </tr>\
+// '
+//       );
+//     });
+//   }
+// }
 
 //创建页码
-function createPage() {
+function createAdminPage() {
   //arr
   // 1  1
   //5   1
@@ -299,7 +317,7 @@ $(".add-admin-confirm").on("click", function () {
   //     $(".warning").show();
   //   }
   // }
-
+  console.log("管理员添加按钮点击");
   $.ajax({
     url: "/admin/addadmin",
     data: {
