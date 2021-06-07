@@ -1,28 +1,26 @@
 //判断是否是学生，显示对应的页面
-// var json = localStorage.getItem("data");
-// localStorage.setItem("homepage", "公告主页");
-
-// var jsonObj = JSON.parse(json);
-// if (jsonObj.type == undefined) {
-//   $("#nav-left ul").children().eq(1).hide();
-//   $("#nav-left ul").children().eq(3).hide();
-//   $("#nav-left ul").children().eq(4).hide();
-//   $("#nav-left ul").children().eq(2).find("a").attr("href", "student.html");
-// }
+var json = localStorage.getItem("data");
+var jsonObj = JSON.parse(json);
+if (jsonObj.adminType == undefined) {
+  $("#nav-left ul").children().eq(1).hide();
+  $("#nav-left ul").children().eq(3).hide();
+  $("#nav-left ul").children().eq(4).hide();
+  $("#nav-left ul").children().eq(2).find("a").attr("href", "student.html");
+}
 
 // console.log("jsonObj", jsonObj);
 // console.log("jsonObj.name", jsonObj.name);
 // console.log("jsonObj.stuName", jsonObj.stuName);
 
-// //jsonObj.stuName
-// //页眉导航栏显示用户名
-// if (jsonObj.name) {
-//   $(".userNamePanel").html(jsonObj.name);
-//   console.log(jsonObj.name);
-// } else {
-//   $(".userNamePanel").html(jsonObj.stuName);
-//   console.log(jsonObj.stuName);
-// }
+//jsonObj.stuName
+//页眉导航栏显示用户名
+if (jsonObj.adminName) {
+  $(".userNamePanel").html(jsonObj.adminName);
+  console.log(jsonObj.name);
+} else {
+  $(".userNamePanel").html(jsonObj.stuName);
+  console.log(jsonObj.stuName);
+}
 
 //左侧导航栏点击事件
 $(".menu-list").hide();
@@ -142,14 +140,12 @@ $(".menu-list").each(function (i) {
     $(".menu-list").eq(i).addClass("active");
     $(".menu-list").eq(i).children().css({ color: "white" });
     //点击后显示相应页面
-    var text = $(this)
-      .text()
-      .substring(0, $(this).text().length - 1);
-    console.log(
+    var text = $.trim(
       $(this)
         .text()
         .substring(0, $(this).text().length - 1)
     );
+    console.log(text);
 
     // function addColor(_this) {
     //   $(_this).parent().siblings().children().css({ color: "" });
@@ -157,7 +153,7 @@ $(".menu-list").each(function (i) {
     //   $(_this).siblings().attr("style", "color: #0f6efd");
     // }
 
-    if (text == "公告主页") {
+    if (text == "公告主页x") {
       $("#homepage").show();
       $("#dorm-homepage").hide();
       $("#student-admin-homepage").hide();
