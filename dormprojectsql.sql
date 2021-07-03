@@ -75,9 +75,21 @@ CREATE TABLE payRecords(
 -- 获得宿舍人数
 select count(1) from students where stuDormId = (select id from dorms where id =1);
 
+use dromProject2;
+
+CREATE TABLE dormProperties(
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	proName varchar(20) not null,
+    -- 1:良好 2:破损 3:报修 4:废弃
+    proState int default 1,
+    -- 1:未使用 2:已使用
+    isUsed int default 1,
+	proDormId int,
+    CONSTRAINT FOREIGN KEY(proDormId) REFERENCES dorms(id)
+);
 
 
-
+insert into dormProperties values(null,"椅子",1,1,14);
 
 
 
